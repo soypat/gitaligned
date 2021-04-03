@@ -37,7 +37,7 @@ func Display(commits []commit) (err error) {
 				}
 				taglen := len(tokens[cursor].Tag) + 1
 				txtlen := len(tokens[cursor].Text) + 1
-				tag := tokens[cursor].Tag + spaces32[0:max(0, txtlen-taglen)]
+				tag := tokens[cursor].Tag + spaces(max(0, txtlen-taglen))
 				fmt.Print(tag, " ")
 			}
 			fmt.Println()
@@ -54,4 +54,15 @@ func max(a, b int) int {
 	return b
 }
 
-const spaces32 = "                               "
+const spaces32 = "                                "
+
+func spaces(n int) string {
+	if n < 32 {
+		return spaces32[:n]
+	}
+	var res string
+	for i := 0; i < n/32; i++ {
+		res += spaces32
+	}
+	return res + spaces32[:n%32]
+}

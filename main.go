@@ -25,6 +25,6 @@ func run() error {
 
 func main() {
 	if err := run(); err != nil {
-		fmt.Println("\nError in run: %s", err)
+		fmt.Printf("\nError in run: %s", err)
 	}
 }

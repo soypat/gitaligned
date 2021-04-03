@@ -1,29 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/jdkato/prose/v2"
 )
-
-func DisplayNLPTags(commits []commit) (err error) {
-	return walkCommits(commits, dispNLP)
-}
-
-func dispNLP(c *commit, tokens []prose.Token) {
-	for i := range tokens {
-		fmt.Print(tokens[i].Text, " ")
-	}
-	fmt.Println()
-	for cursor := range tokens {
-		taglen := len(tokens[cursor].Tag) + 1
-		txtlen := len(tokens[cursor].Text) + 1
-		tag := tokens[cursor].Tag + spaces(max(0, txtlen-taglen))
-		fmt.Print(tag, " ")
-	}
-	fmt.Println()
-}
 
 // walkCommits is SLOW. This is because it processes all commit messages into one
 //
@@ -53,6 +34,7 @@ func walkCommits(commits []commit, f func(*commit, []prose.Token)) error {
 		if tokens[i].Tag == "." {
 			f(&commits[atCommit], tokens[last+1:i])
 			last = i
+			atCommit++
 		}
 	}
 	return nil

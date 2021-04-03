@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -16,6 +17,8 @@ func TestScan(t *testing.T) {
 
 func TestAlignments(t *testing.T) {
 	commits, authors, _ := ScanCWD()
-	SetAlignments(commits, authors)
-	t.Error("ERR")
+	SetAuthorAlignments(commits, authors)
+	for i := range authors {
+		fmt.Printf("%+v\n", authors[i])
+	}
 }

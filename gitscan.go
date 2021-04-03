@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io"
 	"os/exec"
 	"strings"
@@ -18,11 +19,19 @@ type commit struct {
 	message string
 }
 type author struct {
+	commits int
+	alignment
+	accumulator alignment
 	name, email string
 }
 
+func (a author) Stats() string {
+	return fmt.Sprintf("Author %v is %v\nCommits: %d\nAccumulated:%0.1g\n",
+		a.name, a.alignment.Format(), a.commits, a.accumulator)
+}
+
 // ScanCWD Scans .git in current working directory using git
-// command. obtains all commit messages.
+// command. Scans up to maxCommit messages.
 func ScanCWD() ([]commit, []author, error) {
 	cmd := exec.Command("git", "log", "--all")
 	reader, writer := io.Pipe()
@@ -46,7 +55,12 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 	authmap := make(map[string]*author)
 	var b []byte
 	c := commit{}
+	counter := 0
+	var skipFlag bool
 	for {
+		if counter > maxCommits {
+			break
+		}
 		b, err = rdr.ReadBytes('\n')
 		if err != nil {
 			break
@@ -57,6 +71,7 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 		line := string(b[:len(b)-1])
 		switch {
 		case strings.HasPrefix(line, "commit"):
+			skipFlag = false
 			if c.user != nil {
 				if strings.HasSuffix(c.message, ".") {
 					c.hasEndingPeriod = true
@@ -65,12 +80,18 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 				// lowering caps improves verb detection
 				c.message = strings.ToLower(c.message)
 				commits = append(commits, c)
+				counter++
 			}
 			c = commit{}
 		case strings.HasPrefix(line, "Author:"):
 			a, err := parseAuthor(line[len("Author:"):])
 			if err != nil {
 				break
+			}
+			if username != "" && username != a.name {
+				skipFlag = true
+				c = commit{}
+				continue
 			}
 			author, ok := authmap[a.name]
 			if !ok {
@@ -80,11 +101,20 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 			}
 			c.user = author
 		case strings.HasPrefix(line, "Date:"):
+			if skipFlag {
+				continue
+			}
 			c.date, err = time.Parse("Mon Jan 2 15:04:05 2006 -0700", strings.TrimSpace(line[len("Date:"):]))
 			if err != nil {
 				return commits, authors, err
 			}
 		default:
+			if skipFlag {
+				continue
+			}
+			if c.message != "" {
+				c.message += " "
+			}
 			c.message += strings.TrimSpace(line)
 		}
 	}

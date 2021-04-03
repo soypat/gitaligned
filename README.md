@@ -13,14 +13,21 @@ Find where you fall on the Open-Source Character Alignment Chart
 | `Jacobian not singular` | True Neutral |
 | `f*cking BNF` | Chaotic Evil |
 
-## Planned
 
-`gitaligned` will be a command line utility.
-
-Usage:
-```bash
-gitaligned <yourGitName> [repo directory]
+## How to use
+Running gitaligned in this repo:
 ```
+gitaligned -u soypat
+```
+
+Output:
+```
+Author soypat is Neutral Good
+Commits: 6
+Accumulated:{-0.2 2}
+```
+
+## Planned
 
 Output:
 ```

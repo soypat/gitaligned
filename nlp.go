@@ -8,6 +8,24 @@ import (
 )
 
 func Display(commits []commit) (err error) {
+	return walkCommits(commits, disp)
+}
+
+func disp(c *commit, tokens []prose.Token) {
+	for i := range tokens {
+		fmt.Print(tokens[i].Text, " ")
+	}
+	fmt.Println()
+	for cursor := range tokens {
+		taglen := len(tokens[cursor].Tag) + 1
+		txtlen := len(tokens[cursor].Text) + 1
+		tag := tokens[cursor].Tag + spaces(max(0, txtlen-taglen))
+		fmt.Print(tag, " ")
+	}
+	fmt.Println()
+}
+func walkCommits(commits []commit, f func(*commit, []prose.Token)) error {
+	var err error
 	if len(commits) == 0 {
 		panic("expected non-nil/non-zero number of commits")
 	}
@@ -26,27 +44,17 @@ func Display(commits []commit) (err error) {
 		return err
 	}
 	tokens := doc.Tokens()
-	cursor := 0
-
+	atCommit := 0
+	last := 0
 	for i := range tokens {
 		if tokens[i].Tag == "." {
-			fmt.Println()
-			for ; cursor < i; cursor++ {
-				if tokens[cursor].Tag == "." {
-					continue
-				}
-				taglen := len(tokens[cursor].Tag) + 1
-				txtlen := len(tokens[cursor].Text) + 1
-				tag := tokens[cursor].Tag + spaces(max(0, txtlen-taglen))
-				fmt.Print(tag, " ")
-			}
-			fmt.Println()
-			continue
+			f(&commits[atCommit], tokens[last+1:i])
+			last = i
 		}
-		fmt.Print(tokens[i].Text, " ")
 	}
 	return nil
 }
+
 func max(a, b int) int {
 	if a > b {
 		return a
@@ -54,9 +62,8 @@ func max(a, b int) int {
 	return b
 }
 
-const spaces32 = "                                "
-
 func spaces(n int) string {
+	const spaces32 = "                                "
 	if n < 32 {
 		return spaces32[:n]
 	}

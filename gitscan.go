@@ -55,7 +55,9 @@ func NLScan(r io.Reader) (commits []commit, authors []author, err error) {
 		line := string(b[:len(b)-1])
 		switch {
 		case strings.HasPrefix(line, "commit"):
-			commits = append(commits, c)
+			if c.user != nil {
+				commits = append(commits, c)
+			}
 			c = commit{}
 		case strings.HasPrefix(line, "Author:"):
 			a, err := parseAuthor(line[len("Author:"):])

@@ -1,4 +1,4 @@
-package gitscan
+package main
 
 import (
 	"bufio"
@@ -13,6 +13,7 @@ type commit struct {
 	user     *author
 	messsage string
 	date     time.Time
+	alignment
 }
 type author struct {
 	name, email string
@@ -20,7 +21,7 @@ type author struct {
 
 // ScanCWD Scans .git in current working directory using git
 // command. obtains all commit messages.
-func ScanCWD() ([]commit, error) {
+func ScanCWD() ([]commit, []author, error) {
 	cmd := exec.Command("git", "log", "--all")
 	reader, writer := io.Pipe()
 	cmd.Stdout = writer
@@ -28,18 +29,18 @@ func ScanCWD() ([]commit, error) {
 		cmd.Run()
 		writer.Close()
 	}()
-	commits, err := NLScan(reader)
+	commits, authors, err := NLScan(reader)
 	if err == io.EOF {
 		err = nil
 	}
-	return commits, err
+	return commits, authors, err
 }
 
 // NLScan reads git log results and generates commits
-func NLScan(r io.Reader) (commits []commit, err error) {
+func NLScan(r io.Reader) (commits []commit, authors []author, err error) {
 	rdr := bufio.NewReader(r)
 	commits = make([]commit, 0, 100)
-	authors := make([]author, 0, 20)
+	authors = make([]author, 0, 20)
 	authmap := make(map[string]*author)
 	var b []byte
 	c := commit{}
@@ -71,7 +72,7 @@ func NLScan(r io.Reader) (commits []commit, err error) {
 		case strings.HasPrefix(line, "Date:"):
 			c.date, err = time.Parse("Mon Jan 2 15:04:05 2006 -0700", strings.TrimSpace(line[len("Date:"):]))
 			if err != nil {
-				return commits, err
+				return commits, authors, err
 			}
 		default:
 			c.messsage += strings.TrimSpace(line)
@@ -82,7 +83,7 @@ func NLScan(r io.Reader) (commits []commit, err error) {
 		commits = append(commits, c)
 	}
 
-	return commits, err
+	return commits, authors, err
 }
 
 func parseAuthor(s string) (author, error) {

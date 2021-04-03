@@ -10,10 +10,12 @@ import (
 )
 
 type commit struct {
-	user     *author
-	messsage string
-	date     time.Time
 	alignment
+	user            *author
+	hasEndingPeriod bool
+	date            time.Time
+
+	message string
 }
 type author struct {
 	name, email string
@@ -29,15 +31,15 @@ func ScanCWD() ([]commit, []author, error) {
 		cmd.Run()
 		writer.Close()
 	}()
-	commits, authors, err := NLScan(reader)
+	commits, authors, err := GitLogScan(reader)
 	if err == io.EOF {
 		err = nil
 	}
 	return commits, authors, err
 }
 
-// NLScan reads git log results and generates commits
-func NLScan(r io.Reader) (commits []commit, authors []author, err error) {
+// GitLogScan reads git log results and generates commits
+func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 	rdr := bufio.NewReader(r)
 	commits = make([]commit, 0, 100)
 	authors = make([]author, 0, 20)
@@ -56,6 +58,12 @@ func NLScan(r io.Reader) (commits []commit, authors []author, err error) {
 		switch {
 		case strings.HasPrefix(line, "commit"):
 			if c.user != nil {
+				if strings.HasSuffix(c.message, ".") {
+					c.hasEndingPeriod = true
+					c.message = c.message[:len(c.message)-1]
+				}
+				// lowering caps improves verb detection
+				c.message = strings.ToLower(c.message)
 				commits = append(commits, c)
 			}
 			c = commit{}
@@ -77,7 +85,7 @@ func NLScan(r io.Reader) (commits []commit, authors []author, err error) {
 				return commits, authors, err
 			}
 		default:
-			c.messsage += strings.TrimSpace(line)
+			c.message += strings.TrimSpace(line)
 		}
 	}
 

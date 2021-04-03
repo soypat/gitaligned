@@ -7,11 +7,11 @@ import (
 	"github.com/jdkato/prose/v2"
 )
 
-func Display(commits []commit) (err error) {
-	return walkCommits(commits, disp)
+func DisplayNLPTags(commits []commit) (err error) {
+	return walkCommits(commits, dispNLP)
 }
 
-func disp(c *commit, tokens []prose.Token) {
+func dispNLP(c *commit, tokens []prose.Token) {
 	for i := range tokens {
 		fmt.Print(tokens[i].Text, " ")
 	}
@@ -24,6 +24,9 @@ func disp(c *commit, tokens []prose.Token) {
 	}
 	fmt.Println()
 }
+
+// walkCommits is SLOW. This is because it processes all commit messages into one
+//
 func walkCommits(commits []commit, f func(*commit, []prose.Token)) error {
 	var err error
 	if len(commits) == 0 {
@@ -37,7 +40,7 @@ func walkCommits(commits []commit, f func(*commit, []prose.Token)) error {
 	}
 
 	for i := range commits {
-		allCommits.WriteString(strings.ReplaceAll(commits[i].messsage, ".", ",") + ". ")
+		allCommits.WriteString(strings.ReplaceAll(commits[i].message, ".", ",") + ". ")
 	}
 	doc, err = prose.NewDocument(allCommits.String())
 	if err != nil {
@@ -53,6 +56,13 @@ func walkCommits(commits []commit, f func(*commit, []prose.Token)) error {
 		}
 	}
 	return nil
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 func max(a, b int) int {

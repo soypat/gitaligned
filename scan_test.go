@@ -9,7 +9,7 @@ func TestScan(t *testing.T) {
 	if len(commits) == 0 || err != nil {
 		t.Errorf("zero commits or error:%v", err)
 	}
-	if commits[len(commits)-1].messsage != "Initial commit" {
+	if commits[len(commits)-1].message != "Initial commit" {
 		t.Error("Expected initial commit at the end")
 	}
 }

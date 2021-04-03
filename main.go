@@ -7,19 +7,21 @@ import (
 )
 
 var (
-	username = ""
+	username   string
+	maxCommits int
 )
 
 func run() error {
 
 	pflag.StringVarP(&username, "user", "u", "", "git username. see `git config --get user.name`")
+	pflag.IntVarP(&maxCommits, "max-commits", "n", 200, "max amount of commits to process")
 	pflag.Parse()
 
 	commits, _, err := ScanCWD()
 	if err != nil {
 		return err
 	}
-	return Display(commits)
+	return DisplayNLPTags(commits[:min(len(commits), maxCommits)])
 
 }
 

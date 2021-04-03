@@ -15,7 +15,7 @@ type alignment struct {
 func SetAlignments(commits []commit, authors []author) error {
 	for i := range commits {
 		// alg := alignment{}
-		doc, err := prose.NewDocument(commits[i].messsage)
+		doc, err := prose.NewDocument(commits[i].message)
 		if err != nil {
 			return err
 		}

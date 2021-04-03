@@ -1,6 +1,7 @@
 # gitaligned
 Find where you fall on the Open-Source Character Alignment Chart
 
+*This is a work in progress*
 
 ***Opinions*** of commit messages and their alignment
 

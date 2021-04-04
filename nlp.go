@@ -23,7 +23,8 @@ func walkCommits(commits []commit, f func(*commit, []prose.Token)) error {
 	for i := range commits {
 		allCommits.WriteString(strings.ReplaceAll(commits[i].message, ".", ",") + ". ")
 	}
-	doc, err = prose.NewDocument(allCommits.String())
+	doc, err = prose.NewDocument(allCommits.String(),
+		prose.WithExtraction(false), prose.WithSegmentation(false), prose.WithTokenization(false))
 	if err != nil {
 		return err
 	}

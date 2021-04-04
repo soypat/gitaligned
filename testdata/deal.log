@@ -1,0 +1,993 @@
+commit fbdcad1467981655fa6a5167fe6dd644a3181e00
+Merge: 53ba55bf51 63d16fb760
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Sun Mar 28 15:37:18 2021 +0200
+
+    Merge pull request #11972 from agrayver/docfix
+    
+    Update doc
+
+commit 53ba55bf51f1759b23a26ae400635cf2047efa47
+Merge: 4cf65a5400 af035a734d
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Sun Mar 28 15:28:10 2021 +0200
+
+    Merge pull request #11967 from marcfehling/dof-cleanup
+    
+    Cleanup doc in DoFHandler.
+
+commit 4cf65a54009352784bdbd719fc4b58063fd4610d
+Merge: 11fcb45cb7 5e80a435fd
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Sat Mar 27 23:02:20 2021 +0100
+
+    Merge pull request #11958 from peterrum/compute_matrix_petrsc
+    
+    MatrixFreeTools::compute_matrix() for PETScWrappers::MPI::SparseMatrix
+
+commit 11fcb45cb7797a06dc4fb33a40d43296be49f35d
+Merge: 81a1d774ea 1145313f43
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Sat Mar 27 21:36:16 2021 +0100
+
+    Merge pull request #11970 from jppelteret/references_01
+    
+    Fix references.bib
+
+commit 63d16fb7607b247ec8309966f030ab182dbf7279
+Author: Alexander Grayver <agrayver@erdw.ethz.ch>
+Date:   Sat Mar 27 11:29:07 2021 +0100
+
+    Update doc
+
+commit 1145313f4393f643ef5ae54c84ecae0353a4937d
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Fri Mar 26 20:38:18 2021 +0100
+
+    Fix references.bib
+
+commit 81a1d774eadd418e9aa328dbec63156e9f014755
+Merge: eb3ad2401e 84f20a2887
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Sat Mar 27 07:44:22 2021 +0100
+
+    Merge pull request #11968 from peterrum/gc_replace_ca_distributed
+    
+    Replace AffineConstraints::distribute() in MGTwoLevelTransfer
+
+commit af035a734d2bbaeb64c40b8be0b5a902989a2c32
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Fri Mar 26 00:12:01 2021 -0600
+
+    Miscellaneous cleanup in DoFHandler.
+
+commit 84f20a28872fded000cf6603261f7d2c0e3015c8
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Fri Mar 26 12:22:39 2021 +0100
+
+    Replace AffineConstraints::distribute() in MGTwoLevelTransfer
+
+commit eb3ad2401ebf6560893f47536f50ea217865ae2e
+Merge: 8fd06294b3 c23da04a6c
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Fri Mar 26 08:25:36 2021 +0100
+
+    Merge pull request #11961 from marcfehling/divide-parallel-tests
+    
+    Divide parallel tests `limit_p_level_difference` between Triangulation types.
+
+commit 8fd06294b32b32297c0d788f813160cdad9ccac1
+Merge: a9bfce0e82 7d84b53eb1
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Fri Mar 26 08:23:15 2021 +0100
+
+    Merge pull request #11962 from marcfehling/doc-triabase
+    
+    Minor fix in doc for `p:d:TriaBase`.
+
+commit a9bfce0e82ec9d4bfc315010db1a5bbd805e0338
+Merge: 5986acdd2f 95f2552ac0
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Fri Mar 26 08:18:54 2021 +0100
+
+    Merge pull request #11888 from marcfehling/signal-pre-transfer
+    
+    Refactored order of data transfer in p:d::Tria.
+
+commit 5e80a435fdc8e9925b57fc8e0560f1bca359fe7a
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Wed Mar 24 11:30:16 2021 +0100
+
+    MatrixFreeTools::compute_matrix() for PETScWrappers::MPI::SparseMatrix
+
+commit 5986acdd2fb590e33f22fce14789d2b17b965368
+Merge: a551e1a259 fbacd962e1
+Author: Daniel Arndt <arndtd@ornl.gov>
+Date:   Thu Mar 25 11:36:51 2021 -0500
+
+    Merge pull request #11959 from peterrum/petsc_vector_Subscriptor
+    
+    Derive PETScWrappers::PreconditionBase from Subscriptor
+
+commit a551e1a2594ee65abbadd2e590ef1b1055b43b95
+Merge: 981214b60b 930bc93f22
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Thu Mar 25 09:12:18 2021 +0100
+
+    Merge pull request #11960 from marcfehling/restore-subdomain
+    
+    Minor changes to `TemporarilyRestoreSubdomainIds`.
+
+commit 7d84b53eb1b47a9446abf538ea121994f4a47b38
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Wed Mar 24 14:16:09 2021 -0600
+
+    Minor fix in doc for `p:d:TriaBase`.
+
+commit c23da04a6c126f7b756e7d76d55c4822f879b3c1
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Wed Mar 24 14:12:13 2021 -0600
+
+    Divide parallel tests `limit_p_level_difference` between Triangulation types.
+
+commit 930bc93f225bf8959c1c226f12382d8e9789c1db
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Wed Mar 24 14:07:55 2021 -0600
+
+    Minor changes to `TemporarilyRestoreSubdomainIds`.
+
+commit fbacd962e10db4c3b876ce2a58585902c2f93b2e
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Wed Mar 24 16:38:11 2021 +0100
+
+    Derive PETScWrappers::PreconditionBase from Subscriptor
+
+commit 981214b60b491f465dd8cf04e24989a2d806229c
+Merge: 1b1d93e311 fdc8cb56fa
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Tue Mar 23 13:40:13 2021 +0100
+
+    Merge pull request #11943 from marcfehling/future-coarsen
+    
+    Treat cells to be h-coarsened as their parent in `hp::Refinement::limit_p_level_difference()`.
+
+commit 1b1d93e31127d2a160ed38eeff092716aa4f7f05
+Merge: c53d0c4392 a00dd5d9f2
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Tue Mar 23 13:20:13 2021 +0100
+
+    Merge pull request #11948 from marcfehling/copy-tria-2
+    
+    p:d:T:copy_triangulation() for refined meshes. Second attempt.
+
+commit c53d0c4392270b05d730fc041ce5589b3fec8346
+Merge: 16fbd1d9d2 b3a8d1bde5
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Tue Mar 23 09:28:23 2021 +0100
+
+    Merge pull request #11951 from peterrum/mf_asser_compatible
+    
+    MF::check_vector_compatibility(): improve assert message
+
+commit 16fbd1d9d2d805dc09fab9e45efe2e6f5462ff49
+Merge: 6d0bff8118 8e23d2305f
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Tue Mar 23 06:37:18 2021 +0100
+
+    Merge pull request #11952 from mschreter/FEEvaluation_1d_additions
+    
+    FEEvaluation with dim==n_components==1: Add additional support of submit_gradient and get_divergence
+
+commit 6d0bff8118ec5cdd6965a2131b47629521c1cb1f
+Merge: 2516bacda9 d061a0e40a
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Mon Mar 22 21:39:12 2021 +0100
+
+    Merge pull request #11940 from bergbauer/bcast
+    
+    Add bcast function
+
+commit b3a8d1bde577d516e0d38688c9ab291c2f012b21
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Mon Mar 22 18:05:53 2021 +0100
+
+    MF::check_vector_compatibility(): improve asser message
+
+commit fdc8cb56fa9d0480dad29ac65f919b8a2483202b
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Thu Mar 18 14:19:40 2021 -0600
+
+    Treat cells to be h-coarsened as their parent in `hp::Refinement::limit_p_level_difference()`.
+
+commit a00dd5d9f22706c5e5fb3d2d689cfb7d598ee97e
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Sat Mar 20 15:33:16 2021 -0600
+
+    Copy triangulation in MGTransferGlobalCoarsening.
+
+commit 8a149348f0af852030f04cc96aabf6ba05167225
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Sat Mar 20 15:32:58 2021 -0600
+
+    p:d:T:copy_triangulation() for refined meshes.
+
+commit 3992f267f19765539ca6982a3fdd8677e516d0fd
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Sat Mar 20 15:32:38 2021 -0600
+
+    New p4est connectivity copy functions.
+
+commit fbbcacf3bb065551fe9243611310ffa5c84de5f3
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Sat Mar 20 15:36:05 2021 -0600
+
+    Connect parallel_forest to connectivity.
+
+commit 8e23d2305f0a32676bfc58b0b4853f7999db0a27
+Author: Magdalena Schreter <schreter.magdalena@gmail.com>
+Date:   Mon Mar 22 18:50:15 2021 +0100
+
+    added get_divergence and submit_gradient of a rank-2 tensor, both in 1d; improved formatting
+
+commit 2516bacda909cad096893e2a0c47a45ecc4cbe64
+Merge: 54c62aa455 e255821bf9
+Author: David Wells <drwells@email.unc.edu>
+Date:   Mon Mar 22 09:36:22 2021 -0400
+
+    Merge pull request #11950 from bangerth/kinsol-3
+    
+    Use better function names.
+
+commit 54c62aa4558e08e4fa3b97a1d09019de04a1e8d4
+Merge: 00a109b3ce 32ceaac374
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Mon Mar 22 13:39:07 2021 +0100
+
+    Merge pull request #11946 from marcfehling/copy-tria-serial
+    
+    Use manifold iterator range in copy_triangulation().
+
+commit 00a109b3ce12b295d6f8fe022035621a74836d5c
+Merge: 748159c1a5 828aeb1092
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Mon Mar 22 13:37:28 2021 +0100
+
+    Merge pull request #11928 from marcfehling/local_cell_relations_map
+    
+    Minor improvements regarding local_cell_relations.
+
+commit d061a0e40a2ce66aaa9e082c3f2105316e0cefb3
+Author: Maximilian Bergbauer <bergbauer@lnm.mw.tum.de>
+Date:   Thu Mar 18 15:45:15 2021 +0100
+
+    Add broadcast function.
+
+commit e255821bf9c3aae2ea2d3b26674072db95d2e4ca
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Sun Mar 14 15:14:43 2021 +0100
+
+    Use better function names.
+
+commit 748159c1a5d5553318d95155dc39b477d0a3a735
+Merge: a256671ff2 38b136b828
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Mon Mar 22 09:02:27 2021 +0100
+
+    Merge pull request #11908 from bangerth/kinsol-2
+    
+    Update SUNDIALS KINSOL interfaces to their current master
+
+commit a256671ff2a54f8735efc739ec026b1d7e3e6fb6
+Merge: d81425ec06 bc5e6a23bd
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Mon Mar 22 03:01:32 2021 +0100
+
+    Merge pull request #11945 from Rombur/fix_typo
+    
+    Fix typos
+
+commit 38b136b8288c3762b024ffa2567956587d1a229e
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Mon Mar 15 18:09:56 2021 +0100
+
+    Only run tests with KINSOL 5.0 and above.
+
+commit 57ec5b495950ff26e8e66b2ab41a3aba887c2040
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Fri Mar 5 02:36:59 2021 +0100
+
+    Add more KINSOL tests.
+
+commit 66d4627cb3e05576d0a34a82f74326d8a3265aaa
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Fri Mar 5 02:11:32 2021 +0100
+
+    Enable a test also for later SUNDIALS versions.
+
+commit 232e7b2d3cc2c6560b0c28ea7fcb214aba43462c
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Sun Feb 28 17:53:56 2021 +0100
+
+    Make KINSOL available for SUNDIALS versions >4.x.
+
+commit 26452ee9d8ae550fe7836fe8724956a49c874772
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Fri Mar 5 02:10:30 2021 +0100
+
+    Add commentary to a test case.
+
+commit 555a27dd9e4159a03e754a5ce92fc9cc0d0fb368
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Tue Mar 2 03:48:12 2021 +0100
+
+    Mark ignored arguments as such.
+
+commit bc5e6a23bd922acadfac20d925bd04ced3dd4025
+Author: Bruno Turcksin <bruno.turcksin@gmail.com>
+Date:   Sun Mar 21 19:35:46 2021 +0000
+
+    Fix typos
+
+commit 32ceaac3743d17edc73b281426cd334ab25014e7
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Fri Mar 19 18:22:58 2021 -0600
+
+    Use manifold iterator range in copy_triangulation().
+
+commit d81425ec0667359b7332e2a338b829fe8cad389a
+Merge: 71ef4abc5d 95cea012a9
+Author: David Wells <drwells@email.unc.edu>
+Date:   Fri Mar 19 17:57:53 2021 -0400
+
+    Merge pull request #11862 from peterrum/simplex_write_mesh_per_processor_as_vtu
+    
+    GridOut::write_mesh_per_processor_as_vtu() for simplex
+
+commit 95cea012a966e0a783a0ccbf8f4681cdac80eda1
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Sat Mar 6 22:56:12 2021 +0100
+
+    GridOut::write_mesh_per_processor_as_vtu() for simplex
+
+commit 71ef4abc5da8c1f5cc04e229d022044f3259c755
+Merge: c41af6ba45 60a0f92038
+Author: David Wells <drwells@email.unc.edu>
+Date:   Fri Mar 19 10:57:04 2021 -0400
+
+    Merge pull request #11941 from marcfehling/explicit-instantiations
+    
+    Hide explicit instantiations in Utilities::MPI from doxygen.
+
+commit c41af6ba45684edf70e5be1fb2126e271afb7149
+Merge: f05792be6a d21827ced5
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Fri Mar 19 09:34:19 2021 +0100
+
+    Merge pull request #11942 from marcfehling/dofh-improvements
+    
+    Minor changes to DoFHandler functionalities.
+
+commit f05792be6a4df5b054871b539b53d105b2ba1af2
+Merge: 334685f48a bad4c4d9f2
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Fri Mar 19 04:50:23 2021 +0100
+
+    Merge pull request #11937 from marcfehling/limit-levels
+    
+    Move `DoFHandler::prepare_c_and_r()` to `hp::Refinement::limit_p_level_difference()`.
+
+commit d21827ced52ea1f2ffc98225a0310dab04e16592
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Tue Mar 16 20:13:44 2021 -0600
+
+    Minor changes to DoFHandler functionalities.
+
+commit 60a0f92038440789bd0136bbe6f0047245b290e0
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Thu Mar 18 16:04:10 2021 -0600
+
+    Hide explicit instantiations in Utilities::MPI from doxygen.
+
+commit 334685f48a1ffcc4536ebe60b54a27ea8f94925f
+Merge: e4f954195e 9b0cc29ee6
+Author: David Wells <drwells@email.unc.edu>
+Date:   Thu Mar 18 16:57:27 2021 -0400
+
+    Merge pull request #11882 from peterrum/mapping_q_cache_init_vector
+    
+    Add further new MappingQCache::initialize() functions
+
+commit bad4c4d9f25daca2e9f255718c7d47940747b69d
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Wed Mar 17 19:59:12 2021 -0600
+
+    Move DoFhandler::prepare_c_and_r() to hp::Refinement::limit_p_level_difference().
+
+commit 9b0cc29ee61b631b0f107b44f2aa60df7ec32363
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Mon Mar 8 13:24:56 2021 +0100
+
+    Add further MappingQCache::initialize() functions
+
+commit e4f954195edd42d2c1d79cf4bf9f0158bdfff790
+Merge: 9618a79fb3 03f2c7adb2
+Author: Bruno Turcksin <bruno.turcksin@gmail.com>
+Date:   Thu Mar 18 09:59:12 2021 -0400
+
+    Merge pull request #11938 from peterrum/ReadWriteVector_serial_vector
+    
+    LinearAlgebra::ReadWriteVector accept serial vectors
+
+commit 9618a79fb3e81bd02a3690ce28c780d72a39cb0e
+Merge: 2bcb2438ca d39c4121fe
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Thu Mar 18 14:48:31 2021 +0100
+
+    Merge pull request #11936 from drwells/document-identity
+    
+    Better document IdentityFunction.
+
+commit 2bcb2438ca021b98b28559b85a0a5cb4988bbab5
+Merge: f15a5d2cc8 6f1c7e8296
+Author: Daniel Arndt <arndtd@ornl.gov>
+Date:   Thu Mar 18 09:12:24 2021 -0400
+
+    Merge pull request #11804 from peterrum/remote_fe_point_evaluation
+    
+    Add utility functions to evaluate values of arbitrary (remote) points
+
+commit f15a5d2cc86670ebec11f9891e5bfface3896d97
+Merge: 917e4d1aa1 36b0ebfe03
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Thu Mar 18 10:22:16 2021 +0100
+
+    Merge pull request #11910 from peterrum/pst_allow_artificial_cells
+    
+    Extend text regarding allow_artificial_cells
+
+commit 03f2c7adb24ee8d8fd18e278a4e45cb04e224d0d
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Thu Mar 18 10:02:53 2021 +0100
+
+    LinearAlgebra::ReadWriteVector accept serial vectors
+
+commit 36b0ebfe0378a66e3e28ee3340009f617cdf0329
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Sun Mar 14 17:21:56 2021 +0100
+
+    Extend text regarding allow_artificial_cells
+
+commit d39c4121fe1e76093061cbb2a413e32134ef563b
+Author: David Wells <drwells@email.unc.edu>
+Date:   Wed Mar 17 19:09:59 2021 -0400
+
+    Better document IdentityFunction.
+    
+    This came up in review but wasn't fixed before it got merged.
+
+commit 917e4d1aa1b0fa819d597e84f01d10215aa8709a
+Merge: 32a81b46dc 9ea7ae78d5
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Wed Mar 17 23:44:06 2021 +0100
+
+    Merge pull request #11900 from jppelteret/sd_batch_optimiser_01
+    
+    SD BatchOptimizer: Implement cached evaluation
+
+commit 32a81b46dcdecbd12db5bd7fa06cbff746df5425
+Merge: d67fd6958d f3b637fc43
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Wed Mar 17 23:21:53 2021 +0100
+
+    Merge pull request #11935 from jppelteret/ad-doc_02
+    
+    Fix some links in the AD/SD documentation module
+
+commit 828aeb109200a89b4c434570c7e008c7e2ef96e0
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Tue Mar 16 15:56:56 2021 -0600
+
+    Enhance documentation of local_cell_relations.
+
+commit aa8d751549a5a5abde21b015f60077eb4e557456
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Tue Mar 16 15:57:19 2021 -0600
+
+    Review p:fd:Tria::update_cell_relations().
+
+commit f3b637fc43f475c9ee6e1288d7d47eae64ee98cc
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Wed Mar 17 21:28:45 2021 +0100
+
+    Fix some links in the AD/SD documentation module
+
+commit 9ea7ae78d50be994d962277baaba9d62495e5e36
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Mon Jan 18 22:17:03 2021 +0100
+
+    SD BatchOptimizer: Implement cached evaluation
+
+commit d67fd6958deabdf1ec07c9a0ffb3663ba9370b2e
+Merge: 364b365f9b 0c0ab44c87
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Wed Mar 17 21:12:40 2021 +0100
+
+    Merge pull request #11932 from bangerth/kinsol
+    
+    Move implementation of functions into the .cc file.
+
+commit 364b365f9bfec25a83bdee189df79c40a115519c
+Merge: e02d7c67be 84f55c7706
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Wed Mar 17 20:47:52 2021 +0100
+
+    Merge pull request #11934 from peterrum/hp_collection
+    
+    Introduce hp::Collection
+
+commit 6f1c7e8296543debb2d211bd4bbe5def9654c4ef
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Wed Feb 24 22:21:30 2021 +0100
+
+    Add utility functions to evaluate values of arbitrary (remote) points
+
+commit 84f55c7706bbbbf245b8ccf3a3bbe403d7c74cdf
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Wed Mar 17 15:24:20 2021 +0100
+
+    Introduce hp::Collection
+
+commit e02d7c67bec05c07dc64a3c4e514e5847be07e5f
+Merge: 2de8854c90 1d538744b3
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Wed Mar 17 15:50:50 2021 +0100
+
+    Merge pull request #11930 from peterrum/invalid_dof_index
+    
+    Use correct invalid unsigned value for 64 bit integers (2)
+
+commit 2de8854c902e2abf1ca9afc9d636d45306a2c9be
+Merge: e73c585e99 ad075165b3
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Wed Mar 17 15:50:38 2021 +0100
+
+    Merge pull request #11933 from bangerth/15
+    
+    Use the correct file extension.
+
+commit e73c585e9905bab9a2bca86ea8b7c4aae1b30f4c
+Merge: db5385541e 11bc4b13d2
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Wed Mar 17 15:49:48 2021 +0100
+
+    Merge pull request #11931 from peterrum/hp_fe_values_cosmetics
+    
+    Some cosmetics in source/hp/fe_values.cc
+
+commit db5385541e2ed11a7c0d17352ba4db9a988c4fda
+Merge: aafa6b53f8 a7f7eccaae
+Author: Bruno Turcksin <bruno.turcksin@gmail.com>
+Date:   Wed Mar 17 08:26:45 2021 -0400
+
+    Merge pull request #11914 from mschreter/QGaussSimplex_dim0
+    
+    Enable QGaussSimplex<0>
+
+commit aafa6b53f84af2a5efbf53cf23b8400d93298ee2
+Merge: 7430719e1a f08b5f6aac
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Wed Mar 17 10:44:28 2021 +0100
+
+    Merge pull request #11927 from drwells/identity-function
+    
+    Identity function
+
+commit 7430719e1a3fc08b1f0eea9c5d24ff68f712e988
+Merge: b2e134e807 54b5567173
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Wed Mar 17 10:42:14 2021 +0100
+
+    Merge pull request #11925 from peterrum/build_patches_triangulation
+    
+    Simplex: DataOut::attach_triangulation()
+
+commit 0c0ab44c87921b90aab631b1603212722262f6e4
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Wed Mar 17 09:59:22 2021 +0100
+
+    Move implementation of functions into the .cc file.
+
+commit ad075165b325c9ff81636b9c336cc5fc5e2ed97b
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Wed Mar 17 10:28:25 2021 +0100
+
+    Use the correct file extension.
+
+commit 1d538744b3d0bb30f49131012daa6f6c4f4a9fd3
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Wed Mar 17 09:58:53 2021 +0100
+
+    Use correct invalid unsigned value for 64 bit integers (2)
+
+commit 11bc4b13d253ef0c5b45a72941a7732b26870f29
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Wed Mar 17 10:26:03 2021 +0100
+
+    Some cosmetics in source/hp/fe_values.cc
+
+commit a7f7eccaaeeb6828c205cb2cf79cdbe92ead85a9
+Author: Magdalena Schreter <schreter.magdalena@gmail.com>
+Date:   Mon Mar 15 14:45:44 2021 +0100
+
+    enable QGaussSimplex<0>
+
+commit f08b5f6aacf288733c62e5280c02a46480c2e243
+Author: David Wells <drwells@email.unc.edu>
+Date:   Tue Mar 16 18:59:25 2021 -0400
+
+    Add Functions::IdentityFunction.
+
+commit b2e134e8079e5f6f487e9a7f555a75dcb7586bc2
+Merge: 272371b7fd aefdde757c
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Wed Mar 17 00:23:42 2021 +0100
+
+    Merge pull request #11913 from elauksap/local_cell_relations_map
+    
+    Use std::pair for local_cell_relations
+
+commit 54b5567173e6413ad7d0d19ccaa83fd06a7b1d4a
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Tue Mar 16 20:27:07 2021 +0100
+
+    Simplex: DataOut::attach_triangulation()
+
+commit 272371b7fde139aeee8a3fea6d8affe886926c02
+Merge: 47009768f2 6d8dc7b85f
+Author: David Wells <drwells@email.unc.edu>
+Date:   Tue Mar 16 18:08:26 2021 -0400
+
+    Merge pull request #11921 from zjiaqi2018/simplex-test-step-67
+    
+    step-67 simplex test
+
+commit 47009768f291c564dd9d84cfa852fefcd341bc29
+Merge: f223d9b619 c3307ae358
+Author: David Wells <drwells@email.unc.edu>
+Date:   Tue Mar 16 18:05:09 2021 -0400
+
+    Merge pull request #11924 from peterrum/build_patches_mapping
+    
+    DataOut::build_patches(): make mapping dependent on tria
+
+commit f223d9b619d99817ec727a48e437d5aac34dd309
+Merge: 839d9b0b8b 048086c4b1
+Author: David Wells <drwells@email.unc.edu>
+Date:   Tue Mar 16 18:00:07 2021 -0400
+
+    Merge pull request #11926 from bangerth/15
+    
+    Minor work on step-15
+
+commit 048086c4b175f254e16f99de4ff28835a37ebc0c
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Tue Mar 16 15:01:31 2021 +0100
+
+    Make the structure in run() more similar to the way we use elsewhere.
+
+commit 5cfe377d9d6819f31e6febf0bb40c11a1357f9fd
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Tue Mar 16 11:29:24 2021 +0100
+
+    Use current_solution instead of present_solution.
+
+commit 839d9b0b8b274317c847f5aaf007a9b10ac40554
+Merge: 4c2b74f815 b35b89e4ad
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Tue Mar 16 20:37:41 2021 +0100
+
+    Merge pull request #11922 from kronbichler/fix_boundary_id
+    
+    Fix storage of boundary_id in MatrixFree
+
+commit c3307ae358dfe083ea84e28396dc18b24971130e
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Tue Mar 16 20:20:58 2021 +0100
+
+    DataOut::build_patches(): make mapping dependent on tria
+
+commit 6d8dc7b85fb8b3776a59831aa6b542ed8d3874c0
+Author: Jiaqi Zhang <jiaqi2@clemson.edu>
+Date:   Tue Mar 16 17:43:27 2021 +0000
+
+    add some descriptions
+
+commit 4c2b74f8155b303dd8a9c9873dc26d1b8eb4974b
+Merge: e14c2b91a9 38b21f51f5
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Tue Mar 16 18:29:34 2021 +0100
+
+    Merge pull request #11923 from kronbichler/fix_changelog
+    
+    Fix date of changelog
+
+commit 38b21f51f5526565a0122442241686ee23c70c93
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Tue Mar 16 17:40:51 2021 +0100
+
+    Fix date of changelog
+
+commit b35b89e4adda5b683991403e85971e5808f3d0f1
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Tue Mar 16 16:41:51 2021 +0100
+
+    Changelog
+
+commit 6401762ddbedeef2afc810308e985522cce7f13d
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Tue Mar 16 16:41:42 2021 +0100
+
+    New test case
+
+commit 592a3930118c8542120174bd888fa6893afe063a
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Tue Mar 16 16:37:38 2021 +0100
+
+    Fix storage of boundary id in MatrixFree
+
+commit e14c2b91a9f83c97188c6381ba88a6c4f83a4de0
+Merge: 4f174c4f59 2e6082433a
+Author: Daniel Arndt <arndtd@ornl.gov>
+Date:   Tue Mar 16 10:38:17 2021 -0400
+
+    Merge pull request #11920 from marcfehling/doc-shared
+    
+    Document that adaptation flags need to be placed on all procs for p:s:Tria.
+
+commit 4f174c4f597714f838e9af87a173d510a8d04657
+Merge: 3ff4f8939e 308353b1e2
+Author: Daniel Arndt <arndtd@ornl.gov>
+Date:   Tue Mar 16 10:37:58 2021 -0400
+
+    Merge pull request #11915 from kronbichler/fix_data_type
+    
+    Use correct invalid unsigned value for 64 bit integers
+
+commit 06eb852c72d67575b95edef139cece854b7e4a03
+Author: Jiaqi Zhang <jiaqi2@clemson.edu>
+Date:   Tue Mar 16 12:57:01 2021 +0000
+
+    step-67 simplex test
+
+commit aefdde757c6cddc09342962f3a0f0bcebe0c8bc6
+Author: Pasquale Africa <pasqualeclaudio.africa@polimi.it>
+Date:   Mon Mar 15 14:20:59 2021 +0000
+
+    Use std::pair<cell_iterator, CellStatus> for DistributedTriangulationBase::local_cell_relations
+
+commit 308353b1e2a8067fd02c76b78de22b0bf25d3bd6
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Mon Mar 15 15:25:08 2021 +0100
+
+    Fix initialization to invalid value
+
+commit 3ff4f8939e989fff0e91058b514bccbd8a3e4be0
+Merge: c86d06771d f4e30cb140
+Author: Bruno Turcksin <bruno.turcksin@gmail.com>
+Date:   Mon Mar 15 22:35:09 2021 -0400
+
+    Merge pull request #11919 from tamiko/make_more_elegant
+    
+    examples/step-69: use std::copy_n instead of std::copy
+
+commit 2e6082433af2ce3bb3b249d16d1a69827b6bd49c
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Mon Mar 15 17:08:32 2021 -0600
+
+    Document that adaptation flags need to be placed on all procs for p:s:Tria.
+
+commit 95f2552ac01505c2513ad432a0e914f96a273e89
+Author: Marc Fehling <mafehling.git@gmail.com>
+Date:   Thu Mar 11 13:37:16 2021 -0700
+
+    Refactored order of data transfer in p:d::Tria.
+
+commit f4e30cb140fc617d55478b924ddcc3ae69a4d7cf
+Author: Matthias Maier <tamiko@43-1.org>
+Date:   Mon Mar 15 17:30:37 2021 -0500
+
+    examples/stpe-69: use std::copy_n instead of std::copy
+    
+    A std::copy_n is more more elegant than the std::copy variant that need
+    to take the address of an element past the momentum.
+    
+    Thanks to @guermond and @ejtovar for pointing this out.
+
+commit c86d06771d169a1b4814326d6eb08ede812d420a
+Merge: 287024f7e8 234af40598
+Author: David Wells <drwells@email.unc.edu>
+Date:   Mon Mar 15 16:47:15 2021 -0400
+
+    Merge pull request #11917 from bangerth/15
+    
+    No need to futz with the VTK flags in step-15.
+
+commit 234af405982a03bedc9818ca58c676264c392bd7
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Mon Mar 15 18:06:00 2021 +0100
+
+    No need to futz with the VTK flags in step-15.
+
+commit 287024f7e8e158926c613e9007f1573ff27fde85
+Merge: 57e91c2458 bd81f3c9a8
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Mon Mar 15 10:39:42 2021 +0100
+
+    Merge pull request #11903 from jppelteret/scratch_data_03
+    
+    Add some tests for the MeshWorker::ScratchData::get_*() functions
+
+commit 57e91c245854cc49033bf3e4e13ec8759cffb15c
+Merge: 7f71bc2bc6 bf5a467c0f
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Mon Mar 15 09:15:22 2021 +0100
+
+    Merge pull request #11901 from peterrum/reset_global_cell_indices_fix
+    
+    Fix TriangulationBase::reset_global_cell_indices()
+
+commit 7f71bc2bc674e1b4e94c5486dff67a92be7a400e
+Merge: 51b90621ff 853517b9ce
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Mon Mar 15 09:14:33 2021 +0100
+
+    Merge pull request #11897 from jppelteret/scratch_data_01
+    
+    Add const version of MeshWorker::ScratchData::get_general_data_storage()
+
+commit 51b90621ff14886765f5d341753bb0f9a40e26ba
+Merge: f5f7fee3a9 05e99ec56e
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Mon Mar 15 09:12:12 2021 +0100
+
+    Merge pull request #11909 from bangerth/grammar-2
+    
+    Fix grammar.
+
+commit bd81f3c9a824c23a80a5e2eb7514ba256d277878
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Sat Mar 13 19:22:31 2021 +0100
+
+    Add tests for MeshWorker::ScratchData::get_*
+
+commit bf5a467c0fd8ae15d2a99efeec9fc250ad364417
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Sat Mar 13 15:14:47 2021 +0100
+
+    Fix TriangulationBase::reset_global_cell_indices()
+
+commit f5f7fee3a9e7a2496b9b0ddc0163eabb853062ff
+Merge: 185a4e8824 5494ca165a
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Sun Mar 14 16:26:47 2021 +0100
+
+    Merge pull request #11905 from marcfehling/fix-prep-shared
+    
+    Fix refinement flags in mpi/prepare_coarsening_and_refinement_03().
+
+commit 05e99ec56ebaca5cde847d159f47316339e2cbe0
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Sun Mar 14 16:15:18 2021 +0100
+
+    Fix grammar.
+
+commit 185a4e88249d3da034e50471f7bc790fb894bc4d
+Merge: 779d657aa3 c6198ea707
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Sun Mar 14 16:02:48 2021 +0100
+
+    Merge pull request #11898 from jppelteret/scratch_data_02
+    
+    Add get_laplacians to MeshWorker::ScratchData
+
+commit 779d657aa3788b57a774647cdd8eeab6bdc05ce6
+Merge: 7737acd75c 7017f00399
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Sun Mar 14 16:00:49 2021 +0100
+
+    Merge pull request #11907 from bangerth/error-2
+    
+    Fix a space issue in an exception text.
+
+commit 7737acd75c89f4d79404eec95609b6fcc9397b51
+Merge: 67994f49e7 a824278264
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Sun Mar 14 15:18:41 2021 +0100
+
+    Merge pull request #11899 from jppelteret/sd_product_type_01
+    
+    Add general product type between tensors and SD Expressions
+
+commit 67994f49e772af4c718d36b4a7b26da8b4fc70af
+Merge: 25a8a25c24 68ee482d0b
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Sun Mar 14 15:18:15 2021 +0100
+
+    Merge pull request #11890 from peterrum/mg_assert
+    
+    Add assert that DoFCellAccessor::get/set_mg_dof_indices()
+
+commit 25a8a25c244be95b4bd3617b7ecacf1c7be343ec
+Merge: 30e53a956a 82c344a5b0
+Author: Martin Kronbichler <kronbichler@lnm.mw.tum.de>
+Date:   Sun Mar 14 15:17:27 2021 +0100
+
+    Merge pull request #11906 from peterrum/examples_include_accessor
+    
+    Remove includes from tutorials
+
+commit 7017f0039960a905580667f4f0395aaf2168d412
+Author: Wolfgang Bangerth <bangerth@colostate.edu>
+Date:   Fri Mar 5 02:21:27 2021 +0100
+
+    Fix a space issue in an exception text.
+
+commit 68ee482d0b4ae66c34000fc6372a7d63c727f713
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Fri Mar 12 11:38:07 2021 +0100
+
+    Add assert that DoFCellAccessor::get/set_mg_dof_indices()
+
+commit 82c344a5b08276d01e131bf949375518b310b4c5
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Sun Mar 14 13:19:17 2021 +0100
+
+    Remove include files
+
+commit 5494ca165aee863033ec939021ed85d98fc618c2
+Author: Marc Fehling <marc.fehling@gmx.net>
+Date:   Sat Mar 13 20:46:10 2021 -0700
+
+    Fix refinement flags in mpi/prepare_coarsening_and_refinement_03().
+
+commit 30e53a956acf8bce3c2a0b70f15e4fae81a148e8
+Merge: c961bf64c8 8ef7eda068
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Sat Mar 13 14:26:30 2021 +0100
+
+    Merge pull request #11895 from peterrum/step74_fix_latex_format
+    
+    Step 74: fix latex formatting
+
+commit a8242782640ce2a752dd4a9b61e88ea8c707828f
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Sat Feb 6 21:23:02 2021 +0100
+
+    SD Product types: Add general product type between tensors and SD Expressions
+
+commit c6198ea7077527f85e3c9916eee8a31c90441a0a
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Mon Jan 11 21:43:44 2021 +0100
+
+    Add get_laplacians to MeshWorker::ScratchData
+
+commit 853517b9ceda24340dcd09d50c357c8834ff8c28
+Author: Jean-Paul Pelteret <jppelteret@gmail.com>
+Date:   Sat Jan 30 21:56:48 2021 +0100
+
+    Add const version of MeshWorker::ScratchData::get_general_data_storage()
+
+commit 3c2d0f490a034cc48e27fce313fcfbce4daf7fd8
+Author: David Wells <drwells@email.unc.edu>
+Date:   Fri Mar 12 18:33:45 2021 -0500
+
+    Rearrange some code.
+    
+    ZeroFunction inherits from ConstantFunction so it logically should be defined
+    afterwards.
+
+commit 8ef7eda068422825a37799bd53f01d7680d4a84e
+Author: Peter Munch <peterrmuench@gmail.com>
+Date:   Fri Mar 12 22:46:17 2021 +0100
+
+    Step 74: fix latex formating

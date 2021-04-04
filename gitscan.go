@@ -58,7 +58,7 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 	counter := 0
 	var skipFlag bool
 	for {
-		if counter > maxCommits {
+		if counter >= maxCommits {
 			break
 		}
 		b, err = rdr.ReadBytes('\n')
@@ -108,6 +108,8 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 			if err != nil {
 				return commits, authors, err
 			}
+		case strings.HasPrefix(line, "Merge:"):
+			continue
 		default:
 			if skipFlag {
 				continue
@@ -119,7 +121,7 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 		}
 	}
 
-	if err == nil || err == io.EOF && c.user != nil {
+	if (err == nil || err == io.EOF) && c.user != nil {
 		commits = append(commits, c)
 	}
 

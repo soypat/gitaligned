@@ -8,7 +8,9 @@
 .vscode/*
 # Test binary, built with `go test -c`
 *.test
-
+gitaligned
+gitaligned.exe
+gitaligned_macos
 # Binary of module
 gitalign
 

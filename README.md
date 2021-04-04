@@ -7,7 +7,7 @@ To install run the following in your command line (requires Go)
 go get -u github.com/soypat/gitaligned
 ```
 
-## How to use
+## How to use (requires git)
 Run `gitaligned -h` for help.
 
 Running gitaligned in this repo:

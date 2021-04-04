@@ -2,9 +2,10 @@
 Find out where you fall on the Open-Source Character Alignment Chart
 ---
 
-*This is a work in progress*
-
-
+To install run the following in your command line (requires Go)
+```
+go get -u github.com/soypat/gitaligned
+```
 
 ## How to use
 Run `gitaligned -h` for help.

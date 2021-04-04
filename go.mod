@@ -1,4 +1,4 @@
-module gitaligned
+module github.com/soypat/gitaligned
 
 go 1.16
 

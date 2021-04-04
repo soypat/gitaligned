@@ -7,6 +7,8 @@ Find out where you fall on the Open-Source Character Alignment Chart
 
 
 ## How to use
+Run `gitaligned -h` for help.
+
 Running gitaligned in this repo:
 ```
 gitaligned -u soypat

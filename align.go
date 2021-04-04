@@ -33,8 +33,10 @@ func (a alignment) Format() (format string) {
 	}
 	if good {
 		format += "Good"
-	} else {
+	} else if evil {
 		format += "Evil"
+	} else {
+		format += "Neutral"
 	}
 	return format
 }

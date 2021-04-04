@@ -8,6 +8,7 @@ import (
 
 func initTest() {
 	maxCommits = 200
+	maxAuthors = 20
 }
 func TestScan(t *testing.T) {
 	initTest()
@@ -37,6 +38,7 @@ func TestFile(t *testing.T) {
 	var tests = []struct {
 		maxCommits int
 	}{
+		{maxCommits: 315},
 		{maxCommits: 1},
 		{maxCommits: 20},
 		{maxCommits: 80},
@@ -62,9 +64,8 @@ func TestFile(t *testing.T) {
 		emptyalignment := alignment{}
 		for i := range authors {
 			if authors[i].alignment == emptyalignment {
-				t.Errorf("alignment not set for %v", authors[i].Stats())
+				t.Errorf("%d:alignment not set for %v", maxCommits, authors[i].Stats())
 			}
 		}
 	}
-
 }

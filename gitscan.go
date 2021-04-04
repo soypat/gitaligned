@@ -50,8 +50,8 @@ func ScanCWD() ([]commit, []author, error) {
 // GitLogScan reads git log results and generates commits
 func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 	rdr := bufio.NewReader(r)
-	commits = make([]commit, 0, 100)
-	authors = make([]author, 0, 20)
+	commits = make([]commit, 0, maxCommits)
+	authors = make([]author, 0, maxAuthors)
 	authmap := make(map[string]*author)
 	var b []byte
 	c := commit{}
@@ -95,6 +95,10 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 			}
 			author, ok := authmap[a.name]
 			if !ok {
+				if len(authors) == maxAuthors {
+					skipFlag = true
+					continue
+				}
 				authors = append(authors, a)
 				author = &authors[len(authors)-1]
 				authmap[a.name] = author

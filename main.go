@@ -10,19 +10,22 @@ import (
 var (
 	username    string
 	maxCommits  int
+	maxAuthors  int
 	why         bool
 	showNLPTags bool
 )
 
-func run() error {
+func run() (err error) {
 
 	pflag.StringVarP(&username, "user", "u", "", "git username. see `git config --get user.name`")
 	pflag.IntVarP(&maxCommits, "max-commits", "n", 200, "max amount of commits to process")
+	pflag.IntVarP(&maxAuthors, "max-authors", "a", 20, "max amount of authors to process")
 	pflag.BoolVarP(&why, "why", "y", false, "print alignments and message for each commit")
 	pflag.BoolVarP(&showNLPTags, "show-nlp", "k", false, "shows natural language processing tags detected for each commit")
 	pflag.Parse()
-
-	commits, authors, err := ScanCWD()
+	var authors []author
+	var commits []commit
+	commits, authors, err = ScanCWD()
 	if err != nil {
 		return err
 	}

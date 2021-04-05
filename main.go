@@ -13,6 +13,7 @@ var (
 	maxAuthors  int
 	why         bool
 	showNLPTags bool
+	branch      string
 )
 
 func run() (err error) {
@@ -22,10 +23,11 @@ func run() (err error) {
 	pflag.IntVarP(&maxAuthors, "max-authors", "a", 20, "max amount of authors to process")
 	pflag.BoolVarP(&why, "why", "y", false, "print alignments and message for each commit")
 	pflag.BoolVarP(&showNLPTags, "show-nlp", "k", false, "shows natural language processing tags detected for each commit")
+	pflag.StringVarP(&branch, "branch", "b", "", "git branch to scan")
 	pflag.Parse()
 	var authors []author
 	var commits []commit
-	commits, authors, err = ScanCWD()
+	commits, authors, err = ScanCWD(branch)
 	if err != nil {
 		return err
 	}

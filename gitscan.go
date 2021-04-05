@@ -32,8 +32,11 @@ func (a author) Stats() string {
 
 // ScanCWD Scans .git in current working directory using git
 // command. Scans up to maxCommit messages.
-func ScanCWD() ([]commit, []author, error) {
-	cmd := exec.Command("git", "log", "--all")
+func ScanCWD(branch string) ([]commit, []author, error) {
+	if branch == "" {
+		branch = "--all"
+	}
+	cmd := exec.Command("git", "log", branch)
 	reader, writer := io.Pipe()
 	cmd.Stdout = writer
 	go func() {

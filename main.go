@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/spf13/pflag"
 )
@@ -37,13 +38,13 @@ func run() (err error) {
 
 	if why {
 		SetCommitAlignments(commits, authors)
-		return DisplayCommitAlignments(commits)
+		return WriteCommitAlignments(os.Stdout, commits)
 	}
 	if showNLPTags {
-		return DisplayNLPTags(commits)
+		return WriteNLPTags(os.Stdout, commits)
 	}
 	SetAuthorAlignments(commits, authors)
-	return DisplayAuthorAlignments(authors)
+	return WriteAuthorAlignments(os.Stdout, authors)
 }
 
 func main() {

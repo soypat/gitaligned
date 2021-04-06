@@ -5,6 +5,9 @@
 *.so
 *.dylib
 
+# Coverage, IDE
+cov.sh
+coverage.txt
 .vscode/*
 # Test binary, built with `go test -c`
 *.test

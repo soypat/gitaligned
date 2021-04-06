@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -15,8 +16,7 @@ type commit struct {
 	user            *author
 	hasEndingPeriod bool
 	date            time.Time
-
-	message string
+	message         string
 }
 type author struct {
 	commits int
@@ -36,17 +36,19 @@ func ScanCWD(branch string) ([]commit, []author, error) {
 	if branch == "" {
 		branch = "--all"
 	}
-	cmd := exec.Command("git", "log", branch)
+	cmd := exec.Command("git", "log", branch, "-n", strconv.Itoa(maxCommits))
 	reader, writer := io.Pipe()
 	cmd.Stdout = writer
+	var errcmd = make(chan error)
 	go func() {
-		cmd.Run()
+		errcmd <- cmd.Run()
 		writer.Close()
 	}()
 	commits, authors, err := GitLogScan(reader)
 	if err == io.EOF {
 		err = nil
 	}
+	// err = <-errcmd
 	return commits, authors, err
 }
 
@@ -61,7 +63,7 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 	counter := 0
 	var skipFlag bool
 	for {
-		if counter >= maxCommits {
+		if counter >= maxCommits || (rdr.Buffered() == 0 && counter != 0) {
 			break
 		}
 		b, err = rdr.ReadBytes('\n')
@@ -142,4 +144,16 @@ func parseAuthor(s string) (author, error) {
 		return author{}, errors.New("bad author line:" + s)
 	}
 	return author{name: strings.TrimSpace(s[:mailstart]), email: s[mailstart+1 : mailend]}, nil
+}
+
+type repReader string
+
+func (r repReader) Read(b []byte) (int, error) {
+	if len(r) < 1 {
+		return 0, errors.New("bad repReader")
+	}
+	for i := range b {
+		b[i] = byte((r)[i%len(r)])
+	}
+	return len(b), nil
 }

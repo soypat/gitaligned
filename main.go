@@ -18,7 +18,7 @@ var (
 
 func run() (err error) {
 
-	pflag.StringVarP(&username, "user", "u", "", "git username. see `git config --get user.name`")
+	pflag.StringVarP(&username, "user", "u", "", "git username. see 'git config --get user.name'")
 	pflag.IntVarP(&maxCommits, "max-commits", "n", 200, "max amount of commits to process")
 	pflag.IntVarP(&maxAuthors, "max-authors", "a", 20, "max amount of authors to process")
 	pflag.BoolVarP(&why, "why", "y", false, "print alignments and message for each commit")

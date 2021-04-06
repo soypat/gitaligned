@@ -73,20 +73,27 @@ func getAlignment(c *commit, t []prose.Token) (a alignment) {
 	if t[0].Tag == "VB" || t[0].Tag == "VBZ" {
 		a.Morality = 1
 	}
-	adjectives := 0
+	var adjectives, determiners, interjections int
 	for i := 1; i < tlen; i++ {
 		switch t[i].Tag {
-		case "NN":
+		case "NN", "NNP", "NNS":
 			continue // NN (noun, singular or mass) could be just about anything
-		case "JJ": // adjective
+		case "JJ":
 			adjectives++
-		case "DT":
-			// determiners are just noise in small messages
-			a.Morality -= 0.1 * (10 - float64(min(tlen, 10)))
+		case "DT", "WDT":
+			determiners++
+		case "UH":
+			interjections++
 		}
 	}
+	// interjections: uh, oops, ah
+	a.ChaoticLaw -= float64(interjections)
+	//determiners are just noise in small messages: an, a, one, my, the
+	a.Morality -= float64(determiners) * 0.1 * (10 - float64(min(tlen, 10)))
+	// adjectives
 	a.Morality += math.Min(float64(adjectives)*0.4, 1)
 	a.ChaoticLaw -= (float64(adjectives)/float64(tlen) - 0.1) * 3
+	// normalize values so that it is within alignment chart values: [-1,1]
 	a.Morality = capNorm(1, a.Morality)
 	a.ChaoticLaw = capNorm(1, a.ChaoticLaw)
 	return

@@ -53,3 +53,11 @@ For now gitaligned does some basic natural language processing using [`prose`](h
 "Good" commit messages seek to inform the reader of what changed and why.
 
 "Evil" commit messages hide away what changed.
+
+
+### Author alignments on this repo
+
+| Author | Alignment |
+|--------|-----------|
+| soypat | Chaotic Good |
+| frenata | Lawful Neutral | 

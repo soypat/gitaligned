@@ -10,10 +10,11 @@ import (
 func initTest() {
 	maxCommits = 200
 	maxAuthors = 20
+	branch = "main"
 }
 func TestScan(t *testing.T) {
 	initTest()
-	commits, authors, err := ScanCWD()
+	commits, authors, err := ScanCWD(branch)
 	if len(commits) == 0 || err != nil {
 		t.Errorf("zero commits or error:%v", err)
 	}
@@ -25,11 +26,12 @@ func TestScan(t *testing.T) {
 
 func TestAlignments(t *testing.T) {
 	initTest()
-	commits, authors, _ := ScanCWD()
+	commits, authors, _ := ScanCWD(branch)
 	SetAuthorAlignments(commits, authors)
+	emptyalignment := alignment{}
 	for i := range authors {
-		if authors[i].alignment.Morality == 0 {
-			t.Error("alignment not set")
+		if authors[i].alignment == emptyalignment {
+			t.Error("alignment not set for", authors[i].name)
 		}
 	}
 }

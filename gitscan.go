@@ -13,10 +13,10 @@ import (
 
 type commit struct {
 	alignment
-	user            *author
-	hasEndingPeriod bool
-	date            time.Time
-	message         string
+	user                     *author
+	hasEndingPeriod, isMerge bool
+	date                     time.Time
+	message                  string
 }
 type author struct {
 	commits int
@@ -60,75 +60,96 @@ func ScanCWD(branch string) ([]commit, []author, error) {
 func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 	rdr := bufio.NewReader(r)
 	commits = make([]commit, 0, maxCommits)
-	authors = make([]author, 0, maxAuthors)
+	authors = make([]author, maxAuthors)
 	authmap := make(map[string]*author)
-	var b []byte
-	c := commit{}
+	var c commit
+	var a author
+	var auth *author
 	counter := 0
-	var skipFlag bool
-	for {
-		if counter >= maxCommits { // || (rdr.Buffered() == 0 && counter != 0) {
+	eof := false
+	for !eof {
+		if counter >= maxCommits {
 			break
 		}
-		b, err = rdr.ReadBytes('\n')
+		c, a, err = scanNextCommit(rdr)
+		if err == errSkipCommit {
+			continue
+		}
+		if err == io.EOF {
+			eof, err = true, nil
+		}
 		if err != nil {
 			break
 		}
-		if len(b) == 1 { // no text on line
+		auth, err = processAuthor(a, authors, authmap)
+		if err == errSkipCommit {
 			continue
 		}
-		line := string(b[:len(b)-1])
+		processCommit(&c, auth)
+		commits = append(commits, c)
+		counter++
+	}
+	if err == errSkipCommit || err == io.EOF {
+		err = nil
+	}
+	return commits, authors[0:len(authmap)], err
+}
+
+func processAuthor(a author, authors []author, authmap map[string]*author) (*author, error) {
+	// if author name is blank, then skip the person
+	if a.name == "" {
+		return nil, errSkipCommit
+	}
+	// find author in list
+	author, ok := authmap[a.name]
+	nAuthors := len(authmap)
+	if !ok {
+		if len(authmap) == len(authors) {
+			return author, errSkipCommit
+		}
+		authors[nAuthors] = a
+		author = &authors[nAuthors]
+		authmap[a.name] = author
+	}
+	return author, nil
+}
+
+func processCommit(c *commit, a *author) {
+	if strings.HasSuffix(c.message, ".") {
+		c.hasEndingPeriod = true
+		c.message = c.message[:len(c.message)-1]
+	}
+	// lowering caps improves verb detection
+	c.message = strings.ToLower(c.message)
+	c.user = a
+}
+
+// errSkipCommit tells program to ignore commit message
+var errSkipCommit = errors.New("this commit will be ignored")
+
+func scanNextCommit(rdr *bufio.Reader) (c commit, a author, err error) {
+	var line string
+	var commitLineScanned bool
+	for {
+		line, err = scanNextLine(rdr)
 		switch {
-		case strings.HasPrefix(line, "commit"):
-			skipFlag = false
-			if c.user != nil {
-				if strings.HasSuffix(c.message, ".") {
-					c.hasEndingPeriod = true
-					c.message = c.message[:len(c.message)-1]
-				}
-				// lowering caps improves verb detection
-				c.message = strings.ToLower(c.message)
-				commits = append(commits, c)
-				counter++
-			}
-			c = commit{}
+		case !commitLineScanned && strings.HasPrefix(line, "commit"):
+			commitLineScanned = true
 		case strings.HasPrefix(line, "Author:"):
-			a, err := parseAuthor(line[len("Author:"):])
+			a, err = parseAuthor(line[len("Author:"):])
 			if err != nil {
 				break
 			}
 			if username != "" && username != a.name {
-				skipFlag = true
-				c = commit{}
-				continue
+				err = errSkipCommit
 			}
-			author, ok := authmap[a.name]
-			if !ok {
-				if len(authors) == maxAuthors {
-					skipFlag = true
-					continue
-				}
-				authors = append(authors, a)
-				author = &authors[len(authors)-1]
-				authmap[a.name] = author
-			}
-			c.user = author
 		case strings.HasPrefix(line, "Date:"):
-			if skipFlag {
-				continue
-			}
 			c.date, err = time.Parse("Mon Jan 2 15:04:05 2006 -0700", strings.TrimSpace(line[len("Date:"):]))
-			if err != nil {
-				return commits, authors, err
-			}
 		case strings.HasPrefix(line, "Merge:"):
-			continue
+			c.isMerge = true
 		case strings.HasPrefix(line, "fatal:"):
 			err = errors.New(line)
 		default:
-			if skipFlag {
-				continue
-			}
 			if c.message != "" {
 				c.message += " "
 			}
@@ -137,13 +158,25 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 		if err != nil {
 			break
 		}
+		b, err := rdr.Peek(len("\ncommit"))
+		if err != nil || string(b) == "\ncommit" {
+			break
+		}
 	}
+	return c, a, err
+}
 
-	if (err == nil || err == io.EOF) && c.user != nil {
-		commits = append(commits, c)
+func scanNextLine(rdr *bufio.Reader) (string, error) {
+	for {
+		b, err := rdr.ReadBytes('\n')
+		if err != nil {
+			return "", err
+		}
+		if len(b) == 1 { // no text on line
+			continue
+		}
+		return string(b[:len(b)-1]), nil
 	}
-
-	return commits, authors, err
 }
 
 func parseAuthor(s string) (author, error) {

@@ -25,6 +25,7 @@ type author struct {
 	name, email string
 }
 
+// Stats return author alignment in human readable format (with newlines)
 func (a author) Stats() string {
 	return fmt.Sprintf("Author %v is %v\nCommits: %d\nAccumulated:%0.1g\n",
 		a.name, a.alignment.Format(), a.commits, a.accumulator)
@@ -150,10 +151,7 @@ func scanNextCommit(rdr *bufio.Reader) (c commit, a author, err error) {
 		case strings.HasPrefix(line, "fatal:"):
 			err = errors.New(line)
 		default:
-			if c.message != "" {
-				c.message += " "
-			}
-			c.message += strings.TrimSpace(line)
+			c.message = appendMessage(c.message, line)
 		}
 		if err != nil {
 			break
@@ -179,6 +177,13 @@ func scanNextLine(rdr *bufio.Reader) (string, error) {
 	}
 }
 
+func appendMessage(msg, toAppend string) string {
+	if msg == "" {
+		return strings.TrimSpace(toAppend)
+	}
+	return msg + " " + strings.TrimSpace(toAppend)
+}
+
 func parseAuthor(s string) (author, error) {
 	mailstart := strings.Index(s, "<")
 	mailend := strings.Index(s, ">")
@@ -186,17 +191,4 @@ func parseAuthor(s string) (author, error) {
 		return author{}, errors.New("bad author line:" + s)
 	}
 	return author{name: strings.TrimSpace(s[:mailstart]), email: s[mailstart+1 : mailend]}, nil
-}
-
-// repReader spams (writes repeatedly) a string to a reader
-type repReader string
-
-func (r repReader) Read(b []byte) (int, error) {
-	if len(r) < 1 {
-		return 0, errors.New("bad repReader")
-	}
-	for i := range b {
-		b[i] = byte((r)[i%len(r)])
-	}
-	return len(b), nil
 }

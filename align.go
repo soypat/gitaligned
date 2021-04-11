@@ -14,6 +14,10 @@ type alignment struct {
 	ChaoticLaw, Morality float64
 }
 
+// Format returns human readable alignment.
+// i.e. "Neutral Evil".
+//
+// The threshold is set by a global variable called `alignmentThreshold`
 func (a alignment) Format() (format string) {
 	var good, lawful, evil, chaotic bool
 	good = a.Morality > alignmentThreshold
@@ -41,12 +45,14 @@ func (a alignment) Format() (format string) {
 	return format
 }
 
+// SetCommitAlignments processes commits and assigns them an alignment
 func SetCommitAlignments(commits []commit, authors []author) error {
 	return walkCommits(commits, func(c *commit, t []prose.Token) {
 		c.alignment = getAlignment(c, t)
 	})
 }
 
+// SetAuthorAlignments processes authors and sets their alignment
 func SetAuthorAlignments(commits []commit, authors []author) error {
 	walkCommits(commits, func(c *commit, t []prose.Token) {
 		c.user.commits++

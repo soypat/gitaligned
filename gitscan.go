@@ -39,6 +39,8 @@ func ScanCWD(branch string) ([]commit, []author, error) {
 	cmd := exec.Command("git", "log", branch, "-n", strconv.Itoa(maxCommits))
 	reader, writer := io.Pipe()
 	cmd.Stdout = writer
+	cmdstderr := &strings.Builder{}
+	cmd.Stderr = cmdstderr
 	go func() {
 		cmd.Run()
 		writer.Close()
@@ -46,6 +48,10 @@ func ScanCWD(branch string) ([]commit, []author, error) {
 	commits, authors, err := GitLogScan(reader)
 	if err == io.EOF {
 		err = nil
+	}
+	errmsg := cmdstderr.String()
+	if err == nil && errmsg != "" {
+		err = errors.New(errmsg)
 	}
 	return commits, authors, err
 }
@@ -117,6 +123,8 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 			}
 		case strings.HasPrefix(line, "Merge:"):
 			continue
+		case strings.HasPrefix(line, "fatal:"):
+			err = errors.New(line)
 		default:
 			if skipFlag {
 				continue
@@ -125,6 +133,9 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 				c.message += " "
 			}
 			c.message += strings.TrimSpace(line)
+		}
+		if err != nil {
+			break
 		}
 	}
 

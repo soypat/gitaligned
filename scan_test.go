@@ -151,17 +151,6 @@ func TestDisplay(t *testing.T) {
 	}
 }
 
-func TestNoFolderError(t *testing.T) {
-	err := os.Chdir("../")
-	if err != nil {
-		t.Error(err)
-		t.FailNow()
-	}
-	commits, _, err := ScanCWD("")
-	if err == nil || len(commits) > 0 {
-		t.Error("expected error being in non git dir")
-	}
-}
 func scanFromLogFile(t *testing.T, filename string) ([]commit, []author) {
 	f, err := os.Open(filename)
 	if err != nil {
@@ -175,4 +164,17 @@ func scanFromLogFile(t *testing.T, filename string) ([]commit, []author) {
 		t.FailNow()
 	}
 	return commits, authors
+}
+
+func TestNoFolderError(t *testing.T) {
+	initTest()
+	err := os.Chdir("../")
+	if err != nil {
+		t.Error(err)
+		t.FailNow()
+	}
+	commits, _, err := ScanCWD("")
+	if err == nil || len(commits) > 0 {
+		t.Error("expected error and no commits detected being in non git dir")
+	}
 }

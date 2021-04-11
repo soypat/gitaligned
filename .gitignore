@@ -9,6 +9,8 @@
 cov.sh
 coverage.txt
 .vscode/*
+
+*txt
 # Test binary, built with `go test -c`
 *.test
 gitaligned

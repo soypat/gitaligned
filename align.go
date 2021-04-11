@@ -65,13 +65,8 @@ func SetAuthorAlignments(commits []commit, authors []author) error {
 
 func getAlignment(c *commit, t []prose.Token) (a alignment) {
 	tlen := len(t)
-	if tlen <= 2 {
-		a.Morality = -1
-		return
-	}
-	// first word is verb. nice to read these commits
-	if t[0].Tag == "VB" || t[0].Tag == "VBZ" {
-		a.Morality = 1
+	if edgeCases(t, &a) {
+		return a
 	}
 	var adjectives, determiners, interjections int
 	for i := 1; i < tlen; i++ {
@@ -92,7 +87,10 @@ func getAlignment(c *commit, t []prose.Token) (a alignment) {
 	a.Morality -= float64(determiners) * 0.1 * (10 - float64(min(tlen, 10)))
 	// adjectives
 	a.Morality += math.Min(float64(adjectives)*0.4, 1)
-	a.ChaoticLaw -= (float64(adjectives)/float64(tlen) - 0.1) * 3
+	// if adjectives > 1 {
+	a.ChaoticLaw -= (float64(adjectives)/float64(tlen) - 0.2) * 3
+	// }
+
 	// normalize values so that it is within alignment chart values: [-1,1]
 	a.Morality = capNorm(1, a.Morality)
 	a.ChaoticLaw = capNorm(1, a.ChaoticLaw)
@@ -104,4 +102,29 @@ func capNorm(c, f float64) float64 {
 		return math.Max(-c, f)
 	}
 	return math.Min(c, f)
+}
+
+// edgeCases handles the edge cases of a git commit message
+// without worrying much about NLP aspects of it. If it finds
+// an edge case `a` should be modified accordingly.
+//
+// Returned bool indicates if the resulting alignment is final
+// (no more processing needed).
+func edgeCases(t []prose.Token, a *alignment) (finalAlignment bool) {
+	tlen := len(t)
+	if tlen <= 2 {
+		a.Morality = -1
+		return true
+	}
+	switch t[0].Tag {
+	// first word is verb. nice to read these commits
+	case "VB", "VBZ":
+		a.Morality = 1
+	}
+	switch t[0].Text {
+	// branch merging demonstrates organized development
+	case "merge":
+		a.ChaoticLaw = 1
+	}
+	return false
 }

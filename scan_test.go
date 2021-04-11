@@ -129,12 +129,10 @@ func TestDisplay(t *testing.T) {
 		{maxCommits: 20, maxAuthors: 20, file: "testdata/deal.log"},
 		{maxCommits: 80, maxAuthors: 20, file: "testdata/deal.log"},
 	}
-	stdout := os.Stdout
 	for i := range tests {
 		initTest(setMaxCommits(tests[i].maxCommits), setMaxAuthors(tests[i].maxAuthors))
 		commits, authors := scanFromLogFile(t, tests[i].file)
 		err := WriteAuthorAlignments(io.Discard, authors)
-		os.Stdout = nil
 		if err != nil {
 			t.Error(err)
 		}
@@ -151,7 +149,6 @@ func TestDisplay(t *testing.T) {
 			t.Error(err)
 		}
 	}
-	os.Stdout = stdout
 }
 
 func TestNoFolderError(t *testing.T) {

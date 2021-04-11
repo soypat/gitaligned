@@ -39,16 +39,14 @@ func ScanCWD(branch string) ([]commit, []author, error) {
 	cmd := exec.Command("git", "log", branch, "-n", strconv.Itoa(maxCommits))
 	reader, writer := io.Pipe()
 	cmd.Stdout = writer
-	var errcmd = make(chan error)
 	go func() {
-		errcmd <- cmd.Run()
+		cmd.Run()
 		writer.Close()
 	}()
 	commits, authors, err := GitLogScan(reader)
 	if err == io.EOF {
 		err = nil
 	}
-	// err = <-errcmd
 	return commits, authors, err
 }
 
@@ -63,7 +61,7 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 	counter := 0
 	var skipFlag bool
 	for {
-		if counter >= maxCommits || (rdr.Buffered() == 0 && counter != 0) {
+		if counter >= maxCommits { // || (rdr.Buffered() == 0 && counter != 0) {
 			break
 		}
 		b, err = rdr.ReadBytes('\n')
@@ -146,6 +144,7 @@ func parseAuthor(s string) (author, error) {
 	return author{name: strings.TrimSpace(s[:mailstart]), email: s[mailstart+1 : mailend]}, nil
 }
 
+// repReader spams (writes repeatedly) a string to a reader
 type repReader string
 
 func (r repReader) Read(b []byte) (int, error) {

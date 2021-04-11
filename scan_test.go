@@ -30,7 +30,7 @@ func TestScan(t *testing.T) {
 		t.Errorf("zero commits or error:%v", err)
 		t.FailNow()
 	}
-	if commits[len(commits)-1].message != "Initial commit" {
+	if commits[len(commits)-1].message != "initial commit" {
 		t.Error("Expected initial commit at the end")
 	}
 	_ = authors

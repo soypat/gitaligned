@@ -25,6 +25,35 @@ type author struct {
 	name, email string
 }
 
+type gitOption func([]string) []string
+
+var doNothing gitOption = func(s []string) []string { return s }
+
+func optionNoMerges(none bool) gitOption {
+	if none {
+		return func(s []string) []string { return append(s, "--no-merges") }
+	}
+	return doNothing
+}
+
+func optionAuthorPattern(author string) gitOption {
+	if author != "" {
+		return func(s []string) []string { return append(s, "--author", author) }
+	}
+	return doNothing
+}
+
+func optionMaxCommits(n int) gitOption {
+	return func(s []string) []string { return append(s, "-n", strconv.Itoa(n)) }
+}
+
+func optionBranch(b string) gitOption {
+	if b == "" {
+		b = "--all"
+	}
+	return func(s []string) []string { return append([]string{b}, s...) }
+}
+
 // Stats return author alignment in human readable format (with newlines)
 func (a author) Stats() string {
 	return fmt.Sprintf("Author %v is %v\nCommits: %d\nAccumulated:%0.1g\n",
@@ -33,11 +62,13 @@ func (a author) Stats() string {
 
 // ScanCWD Scans .git in current working directory using git
 // command. Scans up to maxCommit messages.
-func ScanCWD(branch string) ([]commit, []author, error) {
-	if branch == "" {
-		branch = "--all"
+func ScanCWD(opts ...gitOption) ([]commit, []author, error) {
+	var args []string
+	for i := range opts {
+		args = opts[i](args)
 	}
-	cmd := exec.Command("git", "log", branch, "-n", strconv.Itoa(maxCommits))
+	args = append([]string{"log"}, args...)
+	cmd := exec.Command("git", args...)
 	reader, writer := io.Pipe()
 	cmd.Stdout = writer
 	cmdstderr := &strings.Builder{}
@@ -138,12 +169,6 @@ func scanNextCommit(rdr *bufio.Reader) (c commit, a author, err error) {
 			commitLineScanned = true
 		case strings.HasPrefix(line, "Author:"):
 			a, err = parseAuthor(line[len("Author:"):])
-			if err != nil {
-				break
-			}
-			if username != "" && username != a.name {
-				err = errSkipCommit
-			}
 		case strings.HasPrefix(line, "Date:"):
 			c.date, err = time.Parse("Mon Jan 2 15:04:05 2006 -0700", strings.TrimSpace(line[len("Date:"):]))
 		case strings.HasPrefix(line, "Merge:"):
@@ -181,6 +206,7 @@ func appendMessage(msg, toAppend string) string {
 	if msg == "" {
 		return strings.TrimSpace(toAppend)
 	}
+
 	return msg + " " + strings.TrimSpace(toAppend)
 }
 

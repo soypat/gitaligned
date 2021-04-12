@@ -8,27 +8,41 @@ import (
 	"github.com/spf13/pflag"
 )
 
-var (
-	username    string
-	maxCommits  int
-	maxAuthors  int
-	why         bool
-	showNLPTags bool
-	branch      string
-)
+const defaultMaxCommits = 1200
+const defaultMaxAuthors = 30
+
+var maxAuthors, maxCommits int
 
 func run() (err error) {
-
-	pflag.StringVarP(&username, "user", "u", "", "git username. see 'git config --get user.name'")
-	pflag.IntVarP(&maxCommits, "max-commits", "n", 200, "max amount of commits to process")
-	pflag.IntVarP(&maxAuthors, "max-authors", "a", 20, "max amount of authors to process")
+	var (
+		username    string
+		why         bool
+		showNLPTags bool
+		branch      string
+		noMerges    bool
+	)
+	pflag.StringVarP(&username, "user", "u", "", "git username. recieves `<pattern>`")
+	pflag.IntVarP(&maxCommits, "max-commits", "n", defaultMaxCommits, "max amount of commits to process")
+	pflag.IntVarP(&maxAuthors, "max-authors", "a", defaultMaxAuthors, "max amount of authors to process")
 	pflag.BoolVarP(&why, "why", "y", false, "print alignments and message for each commit")
+
+	pflag.BoolVarP(&noMerges, "no-merges", "", false, "do not process commits with more than one parent")
 	pflag.BoolVarP(&showNLPTags, "show-nlp", "k", false, "shows natural language processing tags detected for each commit")
 	pflag.StringVarP(&branch, "branch", "b", "", "git branch to scan")
 	pflag.Parse()
+
+	options := []gitOption{
+		optionNoMerges(noMerges),
+		optionAuthorPattern(username),
+		optionBranch(branch),
+	}
+	// if username is specified we know all commits returned by git log will be processed, else undefined
+	if username != "" {
+		options = append(options, optionMaxCommits(maxCommits))
+	}
 	var authors []author
 	var commits []commit
-	commits, authors, err = ScanCWD(branch)
+	commits, authors, err = ScanCWD(options...)
 	if err != nil {
 		return err
 	}

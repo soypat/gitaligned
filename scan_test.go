@@ -3,29 +3,26 @@ package main
 import (
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
 
 type initiator func()
 
-func setMaxCommits(i int) initiator { return func() { maxCommits = i } }
-
-func setMaxAuthors(i int) initiator { return func() { maxAuthors = i } }
-
-func setBranch(b string) initiator { return func() { branch = b } }
-
-func initTest(is ...func()) {
-	maxCommits = 200
-	maxAuthors = 20
-	branch = ""
-	for f := range is {
-		is[f]()
+func defaultOptions() []gitOption {
+	maxAuthors = defaultMaxAuthors
+	maxCommits = defaultMaxCommits
+	var opts = []gitOption{
+		optionMaxCommits(defaultMaxCommits),
+		optionBranch(""),
 	}
+	return opts
+
 }
 func TestScan(t *testing.T) {
-	initTest()
-	commits, authors, err := ScanCWD(branch)
+	opts := defaultOptions()
+	commits, authors, err := ScanCWD(opts...)
 	if len(commits) == 0 || err != nil {
 		t.Errorf("zero commits or error:%v", err)
 		t.FailNow()
@@ -37,8 +34,8 @@ func TestScan(t *testing.T) {
 }
 
 func TestAlignments(t *testing.T) {
-	initTest()
-	commits, authors, _ := ScanCWD(branch)
+	opts := defaultOptions()
+	commits, authors, _ := ScanCWD(opts...)
 	SetAuthorAlignments(commits, authors)
 	emptyalignment := alignment{}
 	for i := range authors {
@@ -61,9 +58,9 @@ func TestFile(t *testing.T) {
 		{maxCommits: 80, maxAuthors: 20, file: "testdata/deal.log"},
 	}
 	for i := range tests {
-		initTest(setMaxCommits(tests[i].maxCommits), setMaxAuthors(tests[i].maxAuthors))
+		maxAuthors, maxCommits = tests[i].maxAuthors, tests[i].maxCommits
 		commits, authors := scanFromLogFile(t, tests[i].file)
-		if len(commits) == 0 || len(commits) < maxCommits || len(authors) == 0 {
+		if len(commits) == 0 || len(commits) < tests[i].maxCommits || len(authors) == 0 {
 			t.Error("bad length of results " + tests[i].file)
 		}
 		err := SetAuthorAlignments(commits, authors)
@@ -73,7 +70,7 @@ func TestFile(t *testing.T) {
 		emptyalignment := alignment{}
 		for i := range authors {
 			if authors[i].alignment == emptyalignment {
-				t.Errorf("%d:alignment not set for %v", maxCommits, authors[i].Stats())
+				t.Errorf("%d:alignment not set for %v", tests[i].maxCommits, authors[i].Stats())
 			}
 		}
 	}
@@ -81,9 +78,8 @@ func TestFile(t *testing.T) {
 
 func TestTokenize(t *testing.T) {
 	var tests = []struct {
-		file       string
-		maxCommits int
-		maxAuthors int
+		file                   string
+		maxAuthors, maxCommits int
 	}{
 		{maxCommits: 200, maxAuthors: 100, file: "testdata/awesomego.log"},
 		{maxCommits: 315, maxAuthors: 20, file: "testdata/deal.log"},
@@ -92,7 +88,7 @@ func TestTokenize(t *testing.T) {
 		{maxCommits: 80, maxAuthors: 20, file: "testdata/deal.log"},
 	}
 	for i := range tests {
-		initTest(setMaxCommits(tests[i].maxCommits), setMaxAuthors(tests[i].maxAuthors))
+		maxAuthors, maxCommits = tests[i].maxAuthors, tests[i].maxCommits
 		commits, _ := scanFromLogFile(t, tests[i].file)
 		tokens, err := tokenizeCommits(commits)
 		if err != nil {
@@ -130,7 +126,7 @@ func TestDisplay(t *testing.T) {
 		{maxCommits: 80, maxAuthors: 20, file: "testdata/deal.log"},
 	}
 	for i := range tests {
-		initTest(setMaxCommits(tests[i].maxCommits), setMaxAuthors(tests[i].maxAuthors))
+		maxAuthors = tests[i].maxAuthors
 		commits, authors := scanFromLogFile(t, tests[i].file)
 		err := WriteAuthorAlignments(io.Discard, authors)
 		if err != nil {
@@ -167,14 +163,50 @@ func scanFromLogFile(t *testing.T, filename string) ([]commit, []author) {
 }
 
 func TestNoFolderError(t *testing.T) {
-	initTest()
-	err := os.Chdir("../")
+	opts := defaultOptions()
+	dir, err := filepath.Abs(".")
+	if err != nil {
+		t.FailNow()
+	}
+	base := filepath.Base(dir)
+	err = os.Chdir("../")
+	t.Cleanup(func() {
+		os.Chdir(base)
+	})
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
-	commits, _, err := ScanCWD("")
+	commits, _, err := ScanCWD(opts...)
 	if err == nil || len(commits) > 0 {
 		t.Error("expected error and no commits detected being in non git dir")
+	}
+}
+
+func TestFindAuthor(t *testing.T) {
+	firstCommiter := "Patricio Whittingslow"
+	opts := []gitOption{
+		optionAuthorPattern(firstCommiter),
+		optionMaxCommits(4),
+	}
+	maxAuthors = 1
+
+	commits, authors, err := ScanCWD(opts...)
+	if err != nil {
+		t.Error(err)
+		t.FailNow()
+	}
+	if len(authors) != 1 || len(commits) == 0 {
+		t.Error("got more than 1 author or no commits")
+	}
+	if authors[0].name != firstCommiter {
+		t.Error("could not find", firstCommiter, "author")
+	}
+}
+
+func TestRun(t *testing.T) {
+	err := run()
+	if err != nil {
+		t.Error(err)
 	}
 }

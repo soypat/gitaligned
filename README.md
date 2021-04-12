@@ -1,3 +1,8 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/soypat/gitaligned)](https://goreportcard.com/report/github.com/soypat/gitaligned)
+[![go.dev reference](https://pkg.go.dev/badge/github.com/soypat/gitaligned)](https://pkg.go.dev/github.com/soypat/gitaligned)
+[![codecov](https://codecov.io/gh/soypat/gitaligned/branch/main/graph/badge.svg)](https://codecov.io/gh/soypat/gitaligned/branch/main)
+
+
 # gitaligned
 Find out where you fall on the Open-Source Character Alignment Chart
 ---

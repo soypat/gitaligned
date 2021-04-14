@@ -13,16 +13,17 @@ import (
 
 type commit struct {
 	alignment
-	user                     *author
+	User                     *author `json:"user"`
 	hasEndingPeriod, isMerge bool
 	date                     time.Time
-	message                  string
+	Message                  string `json:"message"`
 }
 type author struct {
-	commits int
+	Commits int `json:"commits"`
 	alignment
 	accumulator alignment
-	name, email string
+	Name        string `json:"name"`
+	email       string
 }
 
 type gitOption func([]string) []string
@@ -57,7 +58,7 @@ func optionBranch(b string) gitOption {
 // Stats return author alignment in human readable format (with newlines)
 func (a author) Stats() string {
 	return fmt.Sprintf("Author %v is %v\nCommits: %d\nAccumulated:%0.1g\n",
-		a.name, a.alignment.Format(), a.commits, a.accumulator)
+		a.Name, a.alignment.Format(), a.Commits, a.accumulator)
 }
 
 // ScanCWD Scans .git in current working directory using git
@@ -129,11 +130,11 @@ func GitLogScan(r io.Reader) (commits []commit, authors []author, err error) {
 
 func processAuthor(a author, authors []author, authmap map[string]*author) (*author, error) {
 	// if author name is blank, then skip the person
-	if a.name == "" {
+	if a.Name == "" {
 		return nil, errSkipCommit
 	}
 	// find author in list
-	author, ok := authmap[a.name]
+	author, ok := authmap[a.Name]
 	nAuthors := len(authmap)
 	if !ok {
 		if len(authmap) == len(authors) {
@@ -141,19 +142,19 @@ func processAuthor(a author, authors []author, authmap map[string]*author) (*aut
 		}
 		authors[nAuthors] = a
 		author = &authors[nAuthors]
-		authmap[a.name] = author
+		authmap[a.Name] = author
 	}
 	return author, nil
 }
 
 func processCommit(c *commit, a *author) {
-	if strings.HasSuffix(c.message, ".") {
+	if strings.HasSuffix(c.Message, ".") {
 		c.hasEndingPeriod = true
-		c.message = c.message[:len(c.message)-1]
+		c.Message = c.Message[:len(c.Message)-1]
 	}
 	// lowering caps improves verb detection
-	c.message = strings.ToLower(c.message)
-	c.user = a
+	c.Message = strings.ToLower(c.Message)
+	c.User = a
 }
 
 // errSkipCommit tells program to ignore commit message
@@ -176,7 +177,7 @@ func scanNextCommit(rdr *bufio.Reader) (c commit, a author, err error) {
 		case strings.HasPrefix(line, "fatal:"):
 			err = errors.New(line)
 		default:
-			c.message = appendMessage(c.message, line)
+			c.Message = appendMessage(c.Message, line)
 		}
 		if err != nil {
 			break
@@ -216,5 +217,5 @@ func parseAuthor(s string) (author, error) {
 	if mailstart < 1 || mailend < 3 {
 		return author{}, errors.New("bad author line:" + s)
 	}
-	return author{name: strings.TrimSpace(s[:mailstart]), email: s[mailstart+1 : mailend]}, nil
+	return author{Name: strings.TrimSpace(s[:mailstart]), email: s[mailstart+1 : mailend]}, nil
 }

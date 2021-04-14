@@ -27,7 +27,7 @@ func TestScan(t *testing.T) {
 		t.Errorf("zero commits or error:%v", err)
 		t.FailNow()
 	}
-	if commits[len(commits)-1].message != "initial commit" {
+	if commits[len(commits)-1].Message != "initial commit" {
 		t.Error("Expected initial commit at the end")
 	}
 	_ = authors
@@ -40,7 +40,7 @@ func TestAlignments(t *testing.T) {
 	emptyalignment := alignment{}
 	for i := range authors {
 		if authors[i].alignment == emptyalignment {
-			t.Error("alignment not set for", authors[i].name)
+			t.Error("alignment not set for", authors[i].Name)
 		}
 	}
 }
@@ -99,7 +99,7 @@ func TestTokenize(t *testing.T) {
 		for i := range tokens {
 			if tokens[i].Tag == "." {
 				// f(&commits[atCommit], tokens[last+1:i])
-				msg := replacecommits.Replace(commits[atCommit].message)
+				msg := replacecommits.Replace(commits[atCommit].Message)
 				splitsies := strings.Fields(msg)
 				for j := range splitsies {
 					if splitsies[j] != "" && splitsies[j] != tokens[last+1+j].Text {
@@ -199,7 +199,7 @@ func TestFindAuthor(t *testing.T) {
 	if len(authors) != 1 || len(commits) == 0 {
 		t.Error("got more than 1 author or no commits")
 	}
-	if authors[0].name != firstCommiter {
+	if authors[0].Name != firstCommiter {
 		t.Error("could not find", firstCommiter, "author")
 	}
 }

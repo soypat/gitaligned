@@ -20,16 +20,20 @@ func run() (err error) {
 		showNLPTags bool
 		branch      string
 		noMerges    bool
+		jsonOut     bool
 	)
 	pflag.StringVarP(&username, "user", "u", "", "git username. recieves `<pattern>`")
 	pflag.IntVarP(&maxCommits, "max-commits", "n", defaultMaxCommits, "max amount of commits to process")
 	pflag.IntVarP(&maxAuthors, "max-authors", "a", defaultMaxAuthors, "max amount of authors to process")
 	pflag.BoolVarP(&why, "why", "y", false, "print alignments and message for each commit")
-
-	pflag.BoolVarP(&noMerges, "no-merges", "", false, "do not process commits with more than one parent")
+	pflag.BoolVar(&jsonOut, "json", false, "JSON serialized author alignments")
+	pflag.BoolVar(&noMerges, "no-merges", false, "do not process commits with more than one parent")
 	pflag.BoolVarP(&showNLPTags, "show-nlp", "k", false, "shows natural language processing tags detected for each commit")
 	pflag.StringVarP(&branch, "branch", "b", "", "git branch to scan")
+
 	pflag.Parse()
+
+	filename := pflag.Arg(0)
 
 	options := []gitOption{
 		optionNoMerges(noMerges),
@@ -42,7 +46,16 @@ func run() (err error) {
 	}
 	var authors []author
 	var commits []commit
-	commits, authors, err = ScanCWD(options...)
+
+	// log file scan branch
+	fp, err := os.Open(filename)
+	if filename != "" && err == nil {
+		defer fp.Close()
+		commits, authors, err = GitLogScan(fp)
+	} else { // regular control flow branch
+		commits, authors, err = ScanCWD(options...)
+	}
+
 	if err != nil {
 		return err
 	}
@@ -58,6 +71,9 @@ func run() (err error) {
 		return WriteNLPTags(os.Stdout, commits)
 	}
 	SetAuthorAlignments(commits, authors)
+	if jsonOut {
+		return WriteAuthorAlignmentsJSON(os.Stdout, authors)
+	}
 	return WriteAuthorAlignments(os.Stdout, authors)
 }
 

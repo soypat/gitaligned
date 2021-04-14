@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 
@@ -11,12 +12,18 @@ import (
 func WriteCommitAlignments(w io.Writer, commits []commit) error {
 	for i := range commits {
 		_, err := w.Write([]byte(fmt.Sprintf("Commit %v\n%+0.3g\n\t%v\n\n",
-			commits[i].alignment.Format(), commits[i].alignment, commits[i].message)))
+			commits[i].alignment.Format(), commits[i].alignment, commits[i].Message)))
 		if err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+// WriteAuthorAlignmentsJSON writes JSON encoded aligmnents to output
+func WriteAuthorAlignmentsJSON(w io.Writer, authors []author) error {
+	e := json.NewEncoder(w)
+	return e.Encode(authors)
 }
 
 // WriteAuthorAlignments writes human readable author alignments

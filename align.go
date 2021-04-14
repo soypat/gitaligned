@@ -11,7 +11,8 @@ const alignmentThreshold = 0.3
 type alignment struct {
 	// These are axes on our alignment chart.
 	// that go from -1 to 1
-	ChaoticLaw, Morality float64
+	Licitness float64 `json:"licitness"`
+	Morality  float64 `json:"morality"`
 }
 
 // Format returns human readable alignment.
@@ -21,9 +22,9 @@ type alignment struct {
 func (a alignment) Format() (format string) {
 	var good, lawful, evil, chaotic bool
 	good = a.Morality > alignmentThreshold
-	lawful = a.ChaoticLaw > alignmentThreshold
+	lawful = a.Licitness > alignmentThreshold
 	evil = a.Morality < -alignmentThreshold
-	chaotic = a.ChaoticLaw < -alignmentThreshold
+	chaotic = a.Licitness < -alignmentThreshold
 	if !evil && !good && !lawful && !chaotic {
 		return "True Neutral"
 	}
@@ -55,14 +56,14 @@ func SetCommitAlignments(commits []commit, authors []author) error {
 // SetAuthorAlignments processes authors and sets their alignment
 func SetAuthorAlignments(commits []commit, authors []author) error {
 	walkCommits(commits, func(c *commit, t []prose.Token) {
-		c.user.commits++
+		c.User.Commits++
 		a := getAlignment(c, t)
-		c.user.accumulator.Morality += a.Morality
-		c.user.accumulator.ChaoticLaw += a.ChaoticLaw
+		c.User.accumulator.Morality += a.Morality
+		c.User.accumulator.Licitness += a.Licitness
 	})
 	for i := range authors {
-		if authors[i].commits > 0 {
-			authors[i].alignment.ChaoticLaw = math.Erf(authors[i].accumulator.ChaoticLaw)
+		if authors[i].Commits > 0 {
+			authors[i].alignment.Licitness = math.Erf(authors[i].accumulator.Licitness)
 			authors[i].alignment.Morality = math.Erf(authors[i].accumulator.Morality)
 		}
 	}
@@ -88,18 +89,18 @@ func getAlignment(c *commit, t []prose.Token) (a alignment) {
 		}
 	}
 	// interjections: uh, oops, ah
-	a.ChaoticLaw -= float64(interjections)
+	a.Licitness -= float64(interjections)
 	//determiners are just noise in small messages: an, a, one, my, the
 	a.Morality -= float64(determiners) * 0.1 * (10 - float64(min(tlen, 10)))
 	// adjectives
 	a.Morality += math.Min(float64(adjectives)*0.4, 1)
 	// if adjectives > 1 {
-	a.ChaoticLaw -= (float64(adjectives)/float64(tlen) - 0.2) * 3
+	a.Licitness -= (float64(adjectives)/float64(tlen) - 0.2) * 3
 	// }
 
 	// normalize values so that it is within alignment chart values: [-1,1]
 	a.Morality = capNorm(1, a.Morality)
-	a.ChaoticLaw = capNorm(1, a.ChaoticLaw)
+	a.Licitness = capNorm(1, a.Licitness)
 	return
 }
 
@@ -130,7 +131,7 @@ func edgeCases(t []prose.Token, a *alignment) (finalAlignment bool) {
 	switch t[0].Text {
 	// branch merging demonstrates organized development
 	case "merge":
-		a.ChaoticLaw = 1
+		a.Licitness = 1
 	}
 	return false
 }

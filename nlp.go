@@ -24,10 +24,7 @@ func tokenizeCommits(commits []commit) ([]prose.Token, error) {
 	}
 
 	for i := range commits {
-		msg := replacecommits.Replace(commits[i].Message)
-		if i != len(commits)-1 {
-			msg += " . "
-		}
+		msg := replacecommits.Replace(commits[i].Message) + " . "
 		allCommits.WriteString(msg)
 	}
 	// allstr :=allCommits.String()  // debugging purposes

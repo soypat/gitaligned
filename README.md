@@ -11,7 +11,7 @@ Binaries available in [releases](https://github.com/soypat/gitaligned/releases).
 
 If you prefer to install from source, run the following in your command line (requires Go)
 ```
-go get -u github.com/soypat/gitaligned
+go install github.com/soypat/gitaligned@latest
 ```
 
 ## How to use (requires git)
